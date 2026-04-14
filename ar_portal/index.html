@@ -94,17 +94,15 @@
         window.addEventListener('error', (e) => log(`RUNTIME ERR: ${e.message}`));
 
         window.addEventListener('load', () => {
-            log("v1.1.1 - ENGINE FIX");
+            log("v1.1.2 - LOAD FIX");
             
             const sceneEl = document.querySelector('a-scene');
             const statusMsg = document.getElementById('status-msg');
             const startBtn = document.getElementById('start-btn');
 
-            // 1. Scene Load Watcher
-            sceneEl.addEventListener('loaded', () => {
-                log("STATE: A-Frame Scene Loaded");
+            const initSystemCheck = () => {
+                log("STATE: Initializing System Check...");
                 
-                // 2. Verify System Existence
                 const checkSystem = () => {
                     const arSystem = sceneEl.systems['mindar-image-system'];
                     if (arSystem) {
@@ -114,16 +112,26 @@
                         systemInitialized = true;
                     } else {
                         log("STATE: Waiting for AR Engine...");
-                        setTimeout(checkSystem, 500); // Poll until ready
+                        setTimeout(checkSystem, 500); 
                     }
                 };
                 checkSystem();
-            });
+            };
+
+            // Handle both event and pre-loaded state
+            if (sceneEl.hasLoaded) {
+                log("STATE: Scene Already Loaded");
+                initSystemCheck();
+            } else {
+                sceneEl.addEventListener('loaded', () => {
+                    log("STATE: A-Frame Scene Loaded");
+                    initSystemCheck();
+                });
+            }
 
             // Fallback for asset verification
             fetch('assets/targets/targets.mind').then(r => {
                 log(`Asset Fetch: ${r.status}`);
-                if (r.status !== 200) log("ERR: Target file missing!");
             }).catch(e => log(`ERR: Fetch Failed: ${e.message}`));
         });
 
