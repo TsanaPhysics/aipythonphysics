@@ -88,29 +88,64 @@
             if (el) { el.innerHTML += `<br>> ${msg}`; el.scrollTop = el.scrollHeight; }
         };
 
+        let systemInitialized = false;
+
+        // Script loading verification
+        window.addEventListener('error', (e) => log(`RUNTIME ERR: ${e.message}`));
+
         window.addEventListener('load', () => {
-            log("v1.1.0 - PROD RELEASE");
+            log("v1.1.1 - ENGINE FIX");
             
-            // Verify Assets
-            fetch('assets/targets/targets.mind').then(r => log(`Asset Fetch: ${r.status}`));
-            
-            // Show Button
-            setTimeout(() => {
-                document.getElementById('status-msg').innerText = "System Synchronized. Click below.";
-                document.getElementById('start-btn').style.display = 'inline-block';
-            }, 1000);
+            const sceneEl = document.querySelector('a-scene');
+            const statusMsg = document.getElementById('status-msg');
+            const startBtn = document.getElementById('start-btn');
+
+            // 1. Scene Load Watcher
+            sceneEl.addEventListener('loaded', () => {
+                log("STATE: A-Frame Scene Loaded");
+                
+                // 2. Verify System Existence
+                const checkSystem = () => {
+                    const arSystem = sceneEl.systems['mindar-image-system'];
+                    if (arSystem) {
+                        log("STATE: AR System Verified");
+                        statusMsg.innerText = "Engine Ready. Tap to Start.";
+                        startBtn.style.display = 'inline-block';
+                        systemInitialized = true;
+                    } else {
+                        log("STATE: Waiting for AR Engine...");
+                        setTimeout(checkSystem, 500); // Poll until ready
+                    }
+                };
+                checkSystem();
+            });
+
+            // Fallback for asset verification
+            fetch('assets/targets/targets.mind').then(r => {
+                log(`Asset Fetch: ${r.status}`);
+                if (r.status !== 200) log("ERR: Target file missing!");
+            }).catch(e => log(`ERR: Fetch Failed: ${e.message}`));
         });
 
         function startSystem() {
+            if (!systemInitialized) {
+                log("WAIT: System still initializing...");
+                return;
+            }
+
             log("User Activate: Starting MindAR...");
             const sceneEl = document.querySelector('a-scene');
             const arSystem = sceneEl.systems['mindar-image-system'];
             
             if (arSystem) {
-                arSystem.start(); // Direct manual start
-                log("Signal Sent: Camera Booting");
+                try {
+                    arSystem.start(); 
+                    log("Signal Sent: Camera Booting");
+                } catch (e) {
+                    log(`ERR: Boot Failed: ${e.message}`);
+                }
             } else {
-                log("ERR: AR System not found");
+                log("ERR: AR System disappeared!");
             }
 
             sceneEl.addEventListener('arReady', () => {
@@ -118,10 +153,11 @@
                 document.getElementById('startup-overlay').style.display = 'none';
                 document.getElementById('scan-guide').style.display = 'block';
             });
+
+            sceneEl.addEventListener('arError', (e) => {
+                log(`ERR: AR Error: ${e.detail.error}`);
+            });
         }
-        
-        // Error handling
-        window.addEventListener('error', (e) => log(`RUNTIME ERR: ${e.message}`));
     </script>
 </body>
 </html>
