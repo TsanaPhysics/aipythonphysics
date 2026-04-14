@@ -4,12 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Physics xAI AR Portal</title>
-    <!-- Use stable A-Frame 1.1.0 for better MindAR compatibility -->
-    <script src="https://aframe.io/releases/1.1.0/aframe.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.1.4/dist/mindar-image-aframe.prod.js"></script>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.1/dist/mindar-image-aframe.prod.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <style>
         body { margin: 0; overflow: hidden; font-family: 'Inter', sans-serif; background: #000; }
+        #debug-console {
+            position: absolute; top: 10px; left: 10px; right: 10px;
+            background: rgba(0, 0, 0, 0.8); color: #00ff66;
+            font-family: monospace; font-size: 10px; padding: 10px;
+            border-radius: 8px; z-index: 3000; max-height: 120px;
+            overflow-y: auto; border: 1px solid #333;
+        }
         #ui-overlay {
             position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
             display: flex; gap: 12px; z-index: 1000;
@@ -17,59 +23,41 @@
         .btn {
             background: rgba(0, 0, 0, 0.85); color: white; border: 1px solid rgba(255,255,255,0.3);
             padding: 12px 24px; border-radius: 40px; cursor: pointer; backdrop-filter: blur(15px);
-            transition: all 0.3s ease; font-weight: 600; font-size: 13px;
+            font-weight: 600; font-size: 13px;
         }
-        .btn:hover, .btn.active { background: #00ffcc; color: black; border-color: #00ffcc; }
+        .btn.active { background: #00ffcc; color: black; }
         
-        #scan-guide {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 70vw; height: 70vw; border: 2px dashed rgba(0, 255, 204, 0.5); border-radius: 40px;
-            pointer-events: none; z-index: 500;
-        }
-
         #camera-warning {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(10, 10, 10, 0.98); color: white;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             text-align: center; z-index: 2000; padding: 40px;
         }
-        .warning-card { background: #1a1a1a; padding: 30px; border-radius: 24px; border: 1px solid #333; }
-
-        #debug-console {
-            position: absolute; top: 10px; left: 10px; right: 10px;
-            background: rgba(0, 0, 0, 0.7); color: #00ff66;
-            font-family: monospace; font-size: 10px; padding: 8px;
-            border-radius: 8px; z-index: 3000; max-height: 100px;
-            overflow-y: auto; pointer-events: none; border: 1px solid #333;
-        }
+        .warning-card { background: #1a1a1a; padding: 30px; border-radius: 24px; border: 1px solid #444; }
     </style>
 </head>
 <body>
-    <div id="debug-console">--- SYSTEM LOGS ---</div>
+    <div id="debug-console">--- ADVANCED DIAGNOSTICS v1.0.5 ---</div>
 
     <div id="camera-warning">
         <div class="warning-card">
             <h2 id="status-title" style="color: #00ffcc; margin-bottom: 20px;">AR Initialization</h2>
-            <p id="status-desc" style="color: #aaa;">Checking camera & targets.mind...</p>
-            <button id="retry-btn" class="btn" style="margin-top:20px;" onclick="location.reload()">Reload Page</button>
+            <p id="status-desc" style="color: #aaa;">Wait while we verify WebGL and Assets...</p>
+            <button class="btn" style="margin-top:20px;" onclick="location.reload()">Force Reload</button>
         </div>
     </div>
 
-    <div id="scan-guide"></div>
-    
     <div id="ui-overlay">
         <button id="style-minimal-btn" class="btn active" onclick="setStyle('minimal')">Minimalist</button>
         <button id="style-scifi-btn" class="btn" onclick="setStyle('scifi')">Sci-Fi</button>
-        <button id="code-btn" class="btn" onclick="toggleCode()">Code</button>
     </div>
 
     <a-scene 
-        mindar-image="imageTargetSrc: assets/targets/targets.mind; autoStart: true; uiLoading: no; uiScanning: no;" 
+        mindar-image="imageTargetSrc: assets/targets/targets.mind; autoStart: true; uiLoading: yes; uiScanning: yes;" 
         color-space="sRGB" 
         renderer="colorManagement: true, physicallyCorrectLights" 
         vr-mode-ui="enabled: false" 
-        device-orientation-permission-ui="enabled: false"
-        loading-screen="enabled: false">
+        device-orientation-permission-ui="enabled: false">
         
         <script>
             const log = (msg) => {
@@ -78,83 +66,65 @@
                 el.scrollTop = el.scrollHeight;
             };
 
-            log("v1.0.4 - Compatibility Patch");
+            // 1. WebGL Check
+            try {
+                const canvas = document.createElement('canvas');
+                const gl = canvas.getContext('webgl2') || canvas.getContext('webgl');
+                log(`WebGL Check: ${gl ? "OK (" + gl.getParameter(gl.VERSION) + ")" : "FAILED"}`);
+            } catch(e) { log("WebGL ERR: " + e.message); }
 
-            // Manual Fetch Check
+            // 2. Fetch Check
             fetch('assets/targets/targets.mind')
-                .then(r => log(`Fetch Check: ${r.status}`))
-                .catch(e => log(`Fetch Failed: ${e.message}`));
+                .then(r => log(`Asset Fetch: ${r.status}`))
+                .catch(e => log(`Asset ERR: ${e.message}`));
 
             const sceneEl = document.querySelector('a-scene');
             
             sceneEl.addEventListener("arReady", () => {
-                log("MindAR READY: Scene Visible");
+                log("EVENT: arReady (Success!)");
                 document.getElementById('camera-warning').style.display = 'none';
             });
             
             sceneEl.addEventListener("arError", (e) => {
-                log(`AR ERROR: ${JSON.stringify(e.detail)}`);
+                log(`EVENT: arError - ${JSON.stringify(e.detail)}`);
                 document.getElementById('status-title').innerHTML = "❌ Library Error";
             });
 
-            // Chapter logic
-            const chapters = ['ch1', 'ch2', 'ch3', 'ch4', 'ch5', 'ch6', 'ch7', 'ch8', 'ch9', 'ch10'];
-            function setStyle(style) {
-                document.getElementById('style-minimal-btn').classList.toggle('active', style === 'minimal');
-                document.getElementById('style-scifi-btn').classList.toggle('active', style === 'scifi');
-                chapters.forEach(chap => {
-                    const min = document.getElementById(`${chap}-minimal`);
-                    const sci = document.getElementById(`${chap}-scifi`);
-                    if(min) min.setAttribute('visible', style === 'minimal');
-                    if(sci) sci.setAttribute('visible', style === 'scifi');
-                });
-                log(`Style set: ${style}`);
-            }
-
-            function toggleCode() {
-                const panels = document.querySelectorAll('.code-panel');
-                const isVisible = panels.length > 0 && panels[0].getAttribute('visible') === 'false';
-                panels.forEach(p => p.setAttribute('visible', isVisible));
-                document.getElementById('code-btn').innerText = isVisible ? "Hide Code" : "Code";
-                document.getElementById('code-btn').classList.toggle('active', isVisible);
-                log(`Code visible: ${isVisible}`);
-            }
-
-            // Target Detection Monitoring
-            window.addEventListener('targetFound', (e) => log(`Found: ${e.detail.targetIndex}`));
-            window.addEventListener('targetLost', (e) => log(`Lost: ${e.detail.targetIndex}`));
+            // 3. System Status Loop
+            setInterval(() => {
+                const system = sceneEl.systems['mindar-image-system'];
+                if (system) {
+                    // Check internal state if possible
+                    if (system.el && system.el.getAttribute('mindar-image')) {
+                         // MindAR is attached
+                    }
+                } else {
+                    log("System: MindAR NOT detected yet...");
+                }
+            }, 2000);
 
             // Camera status
             navigator.mediaDevices.getUserMedia({video: true})
-                .then(() => log("Cam Check: OK"))
-                .catch(e => log(`Cam Check: FAIL (${e.name})`));
+                .then(() => log("Camera API: OK"))
+                .catch(e => log(`Camera API: DENIED (${e.name})`));
+
+            function setStyle(style) {
+                document.getElementById('style-minimal-btn').classList.toggle('active', style === 'minimal');
+                document.getElementById('style-scifi-btn').classList.toggle('active', style === 'scifi');
+                log(`Style: ${style}`);
+            }
         </script>
 
         <a-assets></a-assets>
+        <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
-        <a-camera position="0 0 0" look-controls="enabled: false" cursor="fuse: false; rayOrigin: mouse;"></a-camera>
-
-        <!-- Dynamic Content for All 10 Chapters -->
         <a-entity mindar-image-target="targetIndex: 0">
-            <a-entity id="ch1-minimal" position="-0.4 0 0"><a-sphere radius="0.08" color="#f39c12"></a-sphere></a-entity>
-            <a-entity id="ch1-scifi" position="0.4 0 0" visible="false"><a-torus-knot radius="0.1" color="#00ffcc" scale="0.5 0.5 0.5"></a-torus-knot></a-entity>
-            <a-entity class="code-panel" id="ch1-code" visible="false" position="0 0.5 0" scale="0.4 0.4 0.4"><a-plane width="2" color="#1a1a1a"><a-text value="v+=a*dt" align="center" width="2" color="#00ffcc"></a-text></a-plane></a-entity>
+            <a-sphere id="ch1-minimal" radius="0.1" color="#f39c12"></a-sphere>
         </a-entity>
 
         <a-entity mindar-image-target="targetIndex: 1">
-            <a-entity id="ch2-minimal" position="-0.4 0 0"><a-sphere radius="0.1" color="#f1c40f"></a-sphere></a-entity>
-            <a-entity id="ch2-scifi" position="0.4 0 0" visible="false"><a-octahedron color="#00ffcc" scale="0.5 0.5 0.5"></a-octahedron></a-entity>
+            <a-sphere id="ch2-minimal" radius="0.1" color="#f1c40f"></a-sphere>
         </a-entity>
-
-        <a-entity mindar-image-target="targetIndex: 2"><a-entity id="ch3-minimal" position="-0.4 0 0"><a-plane color="#e67e22" rotation="-90 0 0" width="0.5" height="0.5"></a-plane></a-entity></a-entity>
-        <a-entity mindar-image-target="targetIndex: 3"><a-entity id="ch4-minimal" position="-0.4 0 0"><a-box color="#34495e" scale="0.2 0.2 0.2"></a-box></a-entity></a-entity>
-        <a-entity mindar-image-target="targetIndex: 4"><a-entity id="ch5-minimal" position="-0.4 0 0"><a-ring color="#e74c3c" radius-inner="0.1" radius-outer="0.12"></a-ring></a-entity></a-entity>
-        <a-entity mindar-image-target="targetIndex: 5"><a-entity id="ch6-minimal" position="-0.4 0 0"><a-sphere radius="0.1" color="#2ecc71"></a-sphere></a-entity></a-entity>
-        <a-entity mindar-image-target="targetIndex: 6"><a-entity id="ch7-minimal" position="-0.4 0 0"><a-cylinder radius="0.05" height="0.3" color="#95a5a6"></a-cylinder></a-entity></a-entity>
-        <a-entity mindar-image-target="targetIndex: 7"><a-entity id="ch8-minimal" position="-0.4 0 0"><a-sphere radius="0.08" color="#f39c12"></a-sphere></a-entity></a-entity>
-        <a-entity mindar-image-target="targetIndex: 8"><a-entity id="ch9-minimal" position="-0.4 0 0"><a-sphere radius="0.1" color="#3498db"></a-sphere></a-entity></a-entity>
-        <a-entity mindar-image-target="targetIndex: 9"><a-entity id="ch10-minimal" position="-0.4 0 0"><a-dodecahedron radius="0.08" color="#8e44ad"></a-dodecahedron></a-entity></a-entity>
-
     </a-scene>
 </body>
 </html>
