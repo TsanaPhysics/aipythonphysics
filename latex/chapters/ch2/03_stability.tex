@@ -1,0 +1,14 @@
+\subsection{Numerical Stability and Precision \quad / \quad \textthai{ความเสถียรและความแม่นยำเชิงตัวเลข}}
+\begin{paracol}{2}
+When simulating physical systems, we must be aware of \textbf{Floating Point Precision}\index{Floating Point Precision@ความแม่นยำของจุดลอยตัว (Floating Point Precision)}. Python (and NumPy) typically uses 64-bit floats (double precision). However, cumulative rounding errors can lead to unphysical results, such as a planet spiraling into a sun due to "numerical energy leak."
+
+Understanding the difference between \textit{stiff} and \textit{non-stiff} systems is crucial. A system is "stiff"\index{Stiff Systems@ระบบประเภท Stiff (Stiff Systems)} if it contains timescales that differ by many orders of magnitude. 
+
+\switchcolumn
+
+\begin{thai}
+เมื่อจำลองระบบทางกายภาพ เราต้องตระหนักถึง \textbf{ความแม่นยำของจุดลอยตัว (Floating Point Precision)} โดยปกติ Python (และ NumPy) จะใช้ทศนิยมแบบ 64 บิต (ความแม่นยำสองเท่า) อย่างไรก็ตาม ข้อผิดพลาดในการปัดเศษที่สะสมอยู่อาจนำไปสู่ผลลัพธ์ที่ไม่เป็นธรรมชาติทางฟิสิกส์ เช่น ดาวเคราะห์ม้วนตัวลงสู่ดวงอาทิตย์เนื่องจาก "การรั่วไหลของพลังงานเชิงตัวเลข"
+
+การเข้าใจความแตกต่างระหว่างระบบ \textit{stiff} และ \textit{non-stiff} เป็นสิ่งสำคัญ ระบบจะถือว่าเป็น "stiff" หากประกอบด้วยสเกลเวลาที่มีความแตกต่างกันหลายอันดับของขนาด
+\end{thai}
+\end{paracol}

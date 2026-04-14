@@ -1,0 +1,43 @@
+% title.tex
+\begin{titlepage}
+    % --- Full Page Background (Minimalist Clean Version) ---
+    \AddToShipoutPictureBG*{%
+        \AtPageLowerLeft{%
+            \begin{tikzpicture}[remember picture,overlay]
+                \node[opacity=1.0, inner sep=0pt, anchor=south west] at (current page.south west) {%
+                    \includegraphics[width=\paperwidth,height=\paperheight]{assets/cover_bg.png}%
+                };
+            \end{tikzpicture}
+        }%
+    }
+    
+    \centering
+    \vspace*{2cm}
+    
+    \begin{tabular}{@{}l@{}}
+        {\fontsize{30}{40}\selectfont\bfseries\color{titleorange} FUNDAMENTAL} \\
+        {\fontsize{80}{90}\selectfont\bfseries\color{white} PHYSICS}
+    \end{tabular}
+   
+    \vfill % Dynamic space to keep center clean
+    
+    {\fontsize{50}{60}\selectfont\bfseries\color{white} PYTHON xAI\par}
+    \vspace{0.8cm}
+    {\Large\bfseries \color{orange} xAI \color{white}| \color{brown} DEEP LEARNING \color{white}| \color{green} 3D-XR \par}
+  \vspace{1.5cm}
+  
+    {\Large\bfseries\color{white} CHEWA THASSANA\par}
+    \vfill
+    \vfill
+    \vfill  
+       \vfill  
+      \vspace{1.5cm}
+    \begin{spacing}{1.2}
+    {\Large\color{white} \today\par}
+    {\Large\color{white} AI-Digital Technology for Agriculture and Environment \par}
+      \vspace{0.5cm}
+    {large\color{white} Faculty of Science and Tevhnology Rambhai Barni Rajabhat University\par}
+    \end{spacing}
+    
+    \afterpage{\nopagecolor}
+\end{titlepage}

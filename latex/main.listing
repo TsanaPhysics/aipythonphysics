@@ -1,0 +1,18 @@
+import torch_geometric.nn as gnn
+
+class HiggsGNN(nn.Module):
+    def __init__(self, node_features, hidden_dim):
+        super().__init__()
+        # Graph Convolution Layers (EdgeConv)
+        self.conv1 = gnn.EdgeConv(nn.Sequential(
+            nn.Linear(node_features * 2, hidden_dim),
+            nn.ReLU(),
+            nn.Linear(hidden_dim, hidden_dim)
+        ))
+        self.fc = nn.Linear(hidden_dim, 2) # [Background, Higgs]
+
+    def forward(self, data):
+        x, edge_index = data.x, data.edge_index
+        x = self.conv1(x, edge_index)
+        x = gnn.global_mean_pool(x, data.batch) # Aggregate Graph
+        return self.fc(x)

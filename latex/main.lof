@@ -1,0 +1,41 @@
+\addvspace {10\p@ }
+\setforeignlanguage {english}
+\setforeignlanguage {english}
+\contentsline {figure}{\numberline {1.1}{\ignorespaces Numerical Simulation Results for a Simple Harmonic Oscillator ($k=1, m=1$)}}{5}{figure.caption.5}%
+\addvspace {10\p@ }
+\setforeignlanguage {english}
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Newtonian Orbit of Earth around the Sun ($10^{11}$ m scale)}}{9}{figure.caption.7}%
+\setforeignlanguage {english}
+\addvspace {10\p@ }
+\setforeignlanguage {english}
+\contentsline {figure}{\numberline {3.1}{\ignorespaces PINN Solution to the 1D Heat Equation ($u_t = 0.01 u_{xx}$)}}{14}{figure.caption.9}%
+\setforeignlanguage {english}
+\addvspace {10\p@ }
+\setforeignlanguage {english}
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Lattice Configurations for Ordered vs. Disordered Phases in the 2D Ising Model}}{19}{figure.caption.11}%
+\setforeignlanguage {english}
+\addvspace {10\p@ }
+\setforeignlanguage {english}
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Phase Space Comparison: Standard MLP vs. Hamiltonian Neural Network}}{24}{figure.caption.13}%
+\setforeignlanguage {english}
+\addvspace {10\p@ }
+\setforeignlanguage {english}
+\setforeignlanguage {english}
+\contentsline {figure}{\numberline {6.1}{\ignorespaces Training and Validation metrics for Waveform Detection. The accuracy stabilizes at 94.2\% despite the extreme noise floor.}}{30}{figure.caption.15}%
+\addvspace {10\p@ }
+\setforeignlanguage {english}
+\setforeignlanguage {english}
+\contentsline {figure}{\numberline {7.1}{\ignorespaces RL Agent Convergence. The success rate for stable landing reaches 96.4\% after 500k training steps.}}{35}{figure.caption.17}%
+\addvspace {10\p@ }
+\setforeignlanguage {english}
+\contentsline {figure}{\numberline {8.1}{\ignorespaces Pareto Front analysis for Kepler's Law discovery. The highlighted point represents the discovery of $T^2 = a^3$ where complexity and error are optimally balanced.}}{39}{figure.caption.19}%
+\setforeignlanguage {english}
+\addvspace {10\p@ }
+\setforeignlanguage {english}
+\contentsline {figure}{\numberline {9.1}{\ignorespaces VAE Latent Manifold for Crystal Structures. The color indicates Thermal Conductivity (W/m·K). Points \textit {a} through \textit {g} show discovered configurations for high-performance heat dissipation.}}{46}{figure.caption.21}%
+\setforeignlanguage {english}
+\addvspace {10\p@ }
+\setforeignlanguage {english}
+\contentsline {figure}{\numberline {10.1}{\ignorespaces 3D Reconstruction of Particle Jets using GNN. The AI identifies the parent quark by analyzing the intricate graph of secondary particle hits.}}{50}{figure.caption.23}%
+\setforeignlanguage {english}
+\addvspace {10\p@ }

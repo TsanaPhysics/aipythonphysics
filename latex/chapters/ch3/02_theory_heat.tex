@@ -1,0 +1,22 @@
+\subsection{Theory: The Heat Equation \quad / \quad \textthai{ทฤษฎี: สมการความร้อน}}
+\begin{paracol}{2}
+Consider the 1D Heat Equation\index{Heat Equation@สมการความร้อน (Heat Equation)}, which describes how temperature $u(x, t)$ changes over time and space:
+\begin{equation}
+    \pdv{u}{t} = \alpha \pdv[2]{u}{x}
+\end{equation}
+where $\alpha$ is the thermal diffusivity. In a traditional solver, we would approximate $\pdv[2]{u}{x}$ using values at discrete grid points. In a PINN, we treat $u(x, t)$ as a neural network output $\mathcal{N}(x, t; \theta)$.
+
+The key to PINNs is \textbf{Automatic Differentiation (AD)}\index{Automatic Differentiation@การหาอนุพันธ์อัตโนมัติ (Automatic Differentiation)}. Unlike numerical derivatives, AD allows us to compute the exact partial derivatives of the network output with respect to its inputs ($x$ and $t$) without a mesh.
+
+\switchcolumn
+
+\begin{thai}
+พิจารณาสมการความร้อนหนึ่งมิติ (1D Heat Equation) ซึ่งอธิบายว่าอุณหภูมิ $u(x, t)$ เปลี่ยนแปลงตามเวลาและพื้นที่อย่างไร:
+\begin{equation}
+    \pdv{u}{t} = \alpha \pdv[2]{u}{x}
+\end{equation}
+โดยที่ $\alpha$ คือค่าสภาพแพร่ความร้อน ในตัวแก้ปัญหาแบบดั้งเดิม เราจะประมาณค่า $\pdv[2]{u}{x}$ โดยใช้ค่าที่จุดตารางแยกชิ้น แต่ใน PINN เรามองว่า $u(x, t)$ คือผลลัพธ์ของโครงข่ายประสาทเทียม $\mathcal{N}(x, t; \theta)$
+
+กุญแจสำคัญของ PINNs คือ \textbf{Automatic Differentiation (AD)} ซึ่งต่างจากการหาอนุพันธ์เชิงตัวเลข AD ช่วยให้เราสามารถคำนวณอนุพันธ์ย่อยที่แม่นยำของผลลัพธ์โครงข่ายเทียบกับตัวแปรขาเข้า ($x$ และ $t$) ได้โดยไม่ต้องมีตาข่าย
+\end{thai}
+\end{paracol}

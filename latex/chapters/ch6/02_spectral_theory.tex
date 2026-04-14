@@ -1,0 +1,30 @@
+\subsection{Spectral Analysis and Uncertainty \quad / \quad \textthai{การวิเคราะห์สเปกตรัมและความไม่แน่นอน}}
+\begin{paracol}{2}
+Traditional signal processing in physics relies on the decomposition of time-series data into the frequency domain. The \textbf{Fourier Transform}\index{Fourier Transform@การแปลงฟูริเยร์ (Fourier Transform)} is defined as:
+\begin{equation}
+    \mathcal{F}(\omega) = \int_{-\infty}^{\infty} x(t) e^{-i\omega t} dt
+\end{equation}
+However, for transient phenomena like black hole collisions, the standard Fourier Transform fails because it loses all temporal information. To address this, we use the \textbf{Short-Time Fourier Transform (STFT)}\index{STFT@STFT (STFT)}:
+\begin{equation}
+    STFT\{x\}(\tau, \omega) = \int_{-\infty}^{\infty} x(t) w(t-\tau) e^{-i\omega t} dt
+\end{equation}
+where $w(t)$ is a windowing function. This introduces a fundamental constraint analogous to the \textbf{Heisenberg Uncertainty Principle}\index{Heisenberg Uncertainty Principle@หลักความไม่แน่นอนของไฮเซนเบิร์ก (Heisenberg Uncertainty Principle)}: we cannot precisely know both the exact time and the exact frequency of a signal simultaneously. A narrow window provides good time resolution but poor frequency resolution, and vice versa.
+
+This "resolution trade-off" is why Deep Learning is so potent. A multi-layer CNN learns to extract features at \textit{multiple scales} simultaneously, effectively bypassing the limitations of fixed-window spectral analysis.
+
+\switchcolumn
+
+\begin{thai}
+การประมวลผลสัญญาณดั้งเดิมในฟิสิกส์อาศัยการย่อยสลายข้อมูลอนุกรมเวลาเข้าสู่โดเมนความถี่ การแปลงฟูเรียร์ (Fourier Transform) ถูกนิยามไว้ดังนี้:
+\begin{equation}
+    \mathcal{F}(\omega) = \int_{-\infty}^{\infty} x(t) e^{-i\omega t} dt
+\end{equation}
+อย่างไรก็ตาม สำหรับปรากฏการณ์ชั่วคราว เช่น การชนกันของหลุมดำ การแปลงฟูเรียร์มาตรฐานจะล้มเหลวเนื่องจากข้อมูลทางเวลาสูญหายไป เพื่อแก้ไขปัญหานี้ เราจึงใช้การแปลงฟูเรียร์แบบเวลาช่วงสั้น (STFT):
+\begin{equation}
+    STFT\{x\}(\tau, \omega) = \int_{-\infty}^{\infty} x(t) w(t-\tau) e^{-i\omega t} dt
+\end{equation}
+โดยที่ $w(t)$ คือฟังก์ชันหน้าต่าง (Windowing function) สิ่งนี้ทำให้เกิดข้อจำกัดพื้นฐานที่คล้ายคลึงกับ \textbf{หลักความไม่แน่นอนของไฮเซนเบิร์ก (Heisenberg Uncertainty Principle)}: เราไม่สามารถรู้ทั้งเวลาที่แน่นอนและความถี่ที่แน่นอนของสัญญาณพร้อมกันได้อย่างแม่นยำ หน้าต่างที่แคบจะให้ความละเอียดทางเวลาที่ดีแต่ความละเอียดทางความถี่ต่ำ และในทางกลับกัน
+
+"การแลกเปลี่ยนความละเอียด" นี้คือสาเหตุที่ดีปเลิร์นนิงมีพลังมาก CNN หลายเลเยอร์เรียนรู้ที่จะดึงคุณสมบัติใน \textit{หลายสเกล (Multiple scales)} พร้อมๆ กัน ช่วยก้าวข้ามขีดจำกัดของการวิเคราะห์สเปกตรัมแบบหน้าต่างคงที่ได้อย่างมีประสิทธิภาพ
+\end{thai}
+\end{paracol}

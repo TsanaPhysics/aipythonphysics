@@ -1,0 +1,49 @@
+\subsection{Case Study: Rediscovering Kepler's Third Law \quad / \quad \textthai{กรณีศึกษา: การค้นพบกฎข้อที่สามของเคปเลอร์ขึ้นมาใหม่}}
+We provide the AI with synthetic observations of planetary motions, specifically the semi-major axis $a$ (in AU) and the orbital period $T$ (in years). The goal is to see if the AI can extract the harmonic relationship $T^2 = a^3$ without prior knowledge of Newtonian mechanics.
+
+\begin{pythonbox}{Symbolic Discovery with PySR (symbolic\_discovery.py)}
+from pysr import PySRRegressor
+import numpy as np
+
+# 1. Generate Synthetic Planetary Data
+a = np.random.uniform(0.5, 30.0, 50) 
+T = np.sqrt(a**3) + 0.01 * np.random.normal(size=50) # T = a^1.5
+
+# 2. Configure Symbolic Search
+model = PySRRegressor(
+    niterations=100,
+    binary_operators=["+", "*", "/", "^"],
+    unary_operators=["sqrt", "log", "exp"],
+    constraints={"^": (-1, 1)}, # Limit exponent complexity
+)
+model.fit(a.reshape(-1, 1), T)
+print(model.best_callable_(a))
+\end{pythonbox}
+
+\subsubsection*{Experimental Results \quad / \quad \textthai{ผลการทดลอง}}
+As shown in the Pareto Front analysis (Figure \ref{fig:ch8_pareto}), the AI successfully identified several candidate formulas. While the most accurate formula was a high-degree polynomial, the "Elbow" point clearly pointed to the simplest power law.
+
+\begin{table}[ht]
+\centering
+\caption{Candidate Formulas Discovered by SR}
+\begin{tabular}{llcc}
+\toprule
+Complexity & Discovered Formula & MSE & Physical Rank \\
+\midrule
+Complexity 1 & $T = a$ & $1.2 \times 10^{-1}$ & Underfit \\
+Complexity 3 & $T = a^{1.5}$ & $2.4 \times 10^{-5}$ & \textbf{Truth} \\
+Complexity 9 & $T = a^{1.5} + 0.001a^2 - 0.0001$ & $1.9 \times 10^{-5}$ & Overfit \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection*{Case Analysis \quad / \quad \textthai{การวิเคราะห์กรณีศึกษา}}
+\begin{paracol}{2}
+The discovery of $T = a^{1.5}$ (or $T^2 = a^3$) demonstrates that SR can act as a "Mechanical Scientist." By identifying the simplest formula that explains the data, the AI has bypassed the millions of parameters of a standard neural network to give us a result that is mathematically interpretable and physically generalizable across different star systems.
+
+\switchcolumn
+
+\begin{thai}
+การค้นพบ $T = a^{1.5}$ (หรือ $T^2 = a^3$) แสดงให้เห็นว่า SR สามารถทำหน้าที่เป็น "นักวิทยาศาสตร์เครื่องกล" ได้ ด้วยการเลือกสูตรที่เรียบง่ายที่สุดที่อธิบายข้อมูลได้ AI ได้ก้าวข้ามพารามิเตอร์นับล้านของโครงข่ายประสาทเทียมทั่วไป เพื่อให้ผลลัพธ์ที่สามารถตีความได้ทางคณิตศาสตร์และนำไปใช้ในวงกว้างทางฟิสิกส์กับระบบดาวฤกษ์ที่แตกต่างกันได้
+\end{thai}
+\end{paracol}

@@ -1,0 +1,28 @@
+# LaTeX
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.toc
+*.idx
+*.ind
+*.ilg
+*.synctex.gz
+*.pdf
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+env/
+venv/
+.env
+
+# System
+.DS_Store
+Thumbs.db
+
+# Project Specific
+/ar_portal/assets/markers_to_compile/

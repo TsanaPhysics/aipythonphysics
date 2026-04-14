@@ -1,0 +1,18 @@
+\subsection{From Observation to Control \quad / \quad \textthai{จากการสังเกตสู่การควบคุม}}
+\begin{paracol}{2}
+Throughout this book, we have treated AI primarily as a tool for \textit{prediction} or \textit{simulation}. However, the most profound application of AI in physics lies in \textbf{Control}. In classical mechanics, controlling a system often involves proportional–integral–derivative (PID) controllers or expensive numerical optimizations. While effective for linear systems, these classical methods often fail when state spaces become high-dimensional or non-linear.
+
+\textbf{Reinforcement Learning (RL)}\index{Reinforcement Learning@การเรียนรู้แบบเสริมกำลัง (Reinforcement Learning)} offers a paradigm shift. In RL, an autonomous \textbf{Agent}\index{Agent@เอเยนต์ (Agent)} interacts with a \textbf{Physical Environment}\index{Environment@สิ่งแวดล้อม (Environment)}, receiving feedback in the form of a scalar \textbf{Reward}\index{Reward@รางวัล (Reward)}. Through millions of trials, the agent discovers a \textit{Policy}—a mathematical mapping from states to actions—that maximizes long-term stability.
+
+In this chapter, we explore RL as a form of "Self-Correcting Physics." We will see how RL can solve problems where human intuition fails, such as the precision landing of reuseable orbital boosters or the real-time stabilization of tokamaks in nuclear fusion experiments.
+
+\switchcolumn
+
+\begin{thai}
+ตลอดทั้งเล่มนี้ เราได้ใช้ AI เป็นเครื่องมือสำหรับ "การทำนาย" หรือ "การจำลอง" เป็นหลัก อย่างไรก็ตาม การประยุกต์ใช้ AI ที่ลึกซึ้งที่สุดในทางฟิสิกส์อยู่ที่ \textbf{การควบคุม (Control)} ในกลศาสตร์ดั้งเดิม การควบคุมระบบมักเกี่ยวข้องกับตัวควบคุม PID หรือการหาค่าที่เหมาะสมที่สุดด้วยวิธีเชิงตัวเลขที่มีค่าใช้จ่ายสูง แม้จะมีประสิทธิภาพสำหรับระบบเชิงเส้น แต่วิธีคลาสสิกเหล่านี้มักล้มเหลวเมื่อปริภูมิสถานะ (State spaces) มีมิติสูงหรือไม่เป็นเชิงเส้น
+
+\textbf{การเรียนรู้แบบเสริมกำลัง (Reinforcement Learning - RL)} นำเสนอการเปลี่ยนกระบวนทัศน์ ใน RL \textbf{เอเยนต์ (Agent)} ที่เป็นอิสระจะโต้ตอบกับ \textbf{สิ่งแวดล้อมทางกายภาพ (Physical Environment)} และได้รับข้อมูลย้อนกลับในรูปแบบของ \textbf{รางวัล (Reward)} จากการทดลองหลายล้านครั้ง เอเยนต์จะค้นพบ "นโยบาย (Policy)"—การจับคู่ทางคณิตศาสตร์จากสถานะไปสู่การกระทำ—ที่ช่วยเพิ่มเสถียรภาพในระยะยาวให้สูงสุด
+
+ในบทนี้ เราจะสำรวจ RL ในฐานะรูปแบบหนึ่งของ "ฟิสิกส์ที่แก้ไขตัวเองได้" เราจะเห็นว่า RL สามารถแก้ปัญหาที่สัญชาตญาณของมนุษย์เข้าไม่ถึงได้อย่างไร เช่น การจอดลงจอดที่แม่นยำของบูสเตอร์จรวดที่นำกลับมาใช้ใหม่ได้ หรือการรักษาเสถียรภาพแบบเรียลไทม์ของโทคาแมคในการทดลองนิวเคลียร์ฟิวชัน
+\end{thai}
+\end{paracol}

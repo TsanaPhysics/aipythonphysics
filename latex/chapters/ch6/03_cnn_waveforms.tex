@@ -1,0 +1,30 @@
+\subsection{1D Convolutions as Spectral Filters \quad / \quad \textthai{คอนโวลูชัน 1 มิติในฐานะตัวกรองสเปกตรัม}}
+\begin{paracol}{2}
+The mathematical core of a 1D CNN is the convolution operation. For a discrete input signal $x$ and a filter (kernel) $k$ of length $N$, the output feature map $y$ at index $i$ is calculated as:
+\begin{equation}
+y[i] = (x * k)[i] = \sum_{j=0}^{N-1} x[i+j] \cdot k[j]
+\end{equation}
+In the context of physics, this operation is fundamentally a \textbf{Sliding Dot Product} or \textbf{Cross-Correlation}. If the kernel $k$ has a shape similar to a physical phenomenon (e.g., a specific frequency wave), the output $y[i]$ will be high when that phenomenon is present in the input signal.
+
+Unlike classical filters where $k$ is designed by a human to match a sine wave, in a CNN, the values of $k$ are \textbf{learned} through backpropagation. This allows the network to discover "natural filters"—features that may be too complex or non-linear for human intuition, such as the subtle "glitches" or frequency shifts occurring during a black hole's final descent.
+
+\begin{physbox}{Insight: Adaptive Filtering}
+While a Fourier Transform (FT) maps a signal from the time domain to the frequency domain globally, a 1D CNN maintains temporal locality. It identifies \textit{when} a specific frequency occurs, similar to a Wavelet Transform, but with the added power of multi-layer abstraction.
+\end{physbox}
+
+\switchcolumn
+
+\begin{thai}
+หัวใจทางคณิตศาสตร์ของ 1D CNN คือการดำเนินการแบบคอนโวลูชัน สำหรับสัญญาณขาเข้าแบบไม่ต่อเนื่อง $x$ และตัวกรอง (เคอร์เนล) $k$ ที่มีความยาว $N$ แผนที่ฟีเจอร์ขาออก $y$ ที่ดัชนี $i$ จะคำนวณได้ดังนี้:
+\begin{equation}
+y[i] = (x * k)[i] = \sum_{j=0}^{N-1} x[i+j] \cdot k[j]
+\end{equation}
+ในบริบทของฟิสิกส์ การดำเนินการนี้เป็นพื้นฐานของ \textbf{ผลคูณจุดแบบเลื่อน (Sliding Dot Product)} หรือ \textbf{สหสัมพันธ์แบบไขว้ (Cross-Correlation)} หากเคอร์เนล $k$ มีรูปร่างคล้ายกับปรากฏการณ์ทางกายภาพ (เช่น คลื่นความถี่เฉพาะ) ค่าเอาต์พุต $y[i]$ จะสูงเมื่อปรากฏการณ์นั้นปรากฏในสัญญาณขาเข้า
+
+ต่างจากตัวกรองแบบคลาสสิกที่ $k$ ถูกออกแบบโดยมนุษย์เพื่อให้ตรงกับคลื่นไซน์ ใน CNN ค่าของ $k$ จะถูก \textbf{เรียนรู้} ผ่านกระบวนการ Backpropagation สิ่งนี้ช่วยให้เครือข่ายค้นพบ "ตัวกรองธรรมชาติ"—คุณลักษณะที่อาจซับซ้อนเกินไปหรือไม่เป็นเชิงเส้นสำหรับสัญชาตญาณของมนุษย์ เช่น "ความผิดปกติ" เล็กน้อยหรือการเปลี่ยนความถี่ที่เกิดขึ้นระหว่างการยุบตัวขั้นสุดท้ายของหลุมดำ
+
+\begin{physbox}{ข้อมูลเชิงลึก: การกรองแบบปรับตัว}
+ในขณะที่การแปลงฟูเรียร์ (Fourier Transform) จะพยากรณ์สัญญาณจากโดเมนเวลาไปยังโดเมนความถี่ในภาพรวม แต่ 1D CNN จะรักษาตำแหน่งทางเวลาไว้ มันระบุว่าความถี่เฉพาะเกิดขึ้น \textit{เมื่อใด} คล้ายกับการแปลงเวฟเล็ต (Wavelet Transform) แต่เพิ่มพลังของการดึงคุณลักษณะแบบหลายชั้นเข้าด้วยกัน
+\end{physbox}
+\end{thai}
+\end{paracol}

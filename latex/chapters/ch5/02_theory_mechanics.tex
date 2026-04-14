@@ -1,0 +1,20 @@
+\subsection{Theory: Lagrangian vs Hamiltonian Mechanics \quad / \quad \textthai{ทฤษฎี: กลศาสตร์ลากรานจ์และฮามิลโทเนียน}}
+\begin{paracol}{2}
+Lagrangian mechanics\index{Lagrangian Mechanics@กลศาสตร์ลากรานจ์ (Lagrangian Mechanics)} is based on the Principle of Least Action, using the Lagrangian $\mathcal{L} = T - V$ (Kinetic - Potential energy). Hamilton refined this by using the Hamiltonian\index{Hamiltonian Mechanics@กลศาสตร์ฮามิลโทเนียน (Hamiltonian Mechanics)} $H = T + V$, which represents the total energy in most systems.
+
+The motion of a particle is governed by Hamilton's Equations:
+\begin{equation}
+    \dot{q} = \pdv{H}{p}, \quad \dot{p} = -\pdv{H}{q}
+\end{equation}
+where $q$ is the position and $p$ is the momentum. These equations define a structure-preserving map in phase space. If a neural network can learn the scalar function $H(q, p)$, it can derive the dynamics $( \dot{q}, \dot{p} )$ accurately through automatic differentiation.
+
+\switchcolumn
+
+\begin{thai}
+ในพลศาสตร์ฮามิลโทเนียน พื้นที่สถานะ ($q, p$) มีโครงสร้างพิเศษที่เรียกว่าพื้นผิวซิมเพลกติก ซึ่งรักษาปริมาตรในพื้นที่สถานะ (กฎของลิอูวิลล์) HNNs ใช้โครงสร้างนี้ในการคำนวณเกรเดียนต์:
+\begin{equation}
+    \dot{q} = \frac{\partial H}{\partial p}, \quad \dot{p} = -\frac{\partial H}{\partial q}
+\end{equation}
+สิ่งนี้ช่วยให้การทำนายตำแหน่งและความเร็วมีความแม่นยำในระยะยาว
+\end{thai}
+\end{paracol}

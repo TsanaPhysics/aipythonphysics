@@ -1,0 +1,26 @@
+\subsection{Theory: VAEs and GANs \quad / \quad \textthai{ทฤษฎี: VAE และ GAN}}
+\begin{paracol}{2}
+The most powerful generative tool in physics is the \textbf{Variational Autoencoder (VAE)}\index{VAE@VAE (VAE)}. A VAE consists of an \textbf{Encoder}\index{Encoder@เอนโค้ดเดอร์ (Encoder)} that compresses a physical configuration $x$ into a lower-dimensional \textbf{Latent Space}\index{Latent Space@พื้นที่แฝง (Latent Space)} $z$, and a \textbf{Decoder}\index{Decoder@ดีโค้ดเดอร์ (Decoder)} that reconstructs the configuration from $z$. 
+
+The key innovation of VAEs is the \textbf{Reparameterization Trick}\index{Reparameterization Trick@เทคนิคการกำหนดพารามิเตอร์ใหม่ (Reparameterization Trick)}, which ensures that the latent space is continuous and follows a Gaussian distribution. For a physicist, this means that every point in the latent space represents a \textit{physically plausible} state. Moving smoothly through the latent space (interpolation) corresponds to a smooth, physical transition between two structures—such as the melting of a crystal or the stretching of a polymer.
+
+\begin{aibox}{Concept: The Latent Manifold}
+Think of the latent space as a "Map" of all possible materials. By identifying regions of the map that correspond to high thermal conductivity or low friction, we can navigate directly to the "coordinates" of an ideal material that has not yet been discovered.
+\end{aibox}
+
+A \textbf{Generative Adversarial Network (GAN)}\index{GAN@GAN (GAN)} uses two competing networks: a \textbf{Generator} and a \textbf{Discriminator}. This "game" forces the Generator to produce configurations that are indistinguishable from real physical data.
+
+\switchcolumn
+
+\begin{thai}
+เครื่องมือสร้างสรรค์ที่มีประสิทธิภาพที่สุดในทางฟิสิกส์คือ \textbf{Variational Autoencoder (VAE)} ซึ่งประกอบด้วย \textbf{ตัวเข้ารหัส (Encoder)} ที่บีบอัดโครงร่างทางกายภาพ $x$ ให้เป็น \textbf{พื้นที่แฝง (Latent Space)} $z$ ที่มีมิติต่ำกว่า และ \textbf{ตัวถอดรหัส (Decoder)} ที่สร้างโครงร่างขึ้นใหม่จาก $z$
+
+นวัตกรรมสำคัญของ VAE คือ \textbf{เทคนิคการกำหนดพารามิเตอร์ใหม่ (Reparameterization Trick)} ซึ่งช่วยให้แน่ใจว่าพื้นที่แฝงนั้นมีความต่อเนื่องและเป็นไปตามการกระจายแบบกอสเซียน สำหรับนักฟิสิกส์ สิ่งนี้หมายความว่าทุกจุดในพื้นที่แฝงแสดงถึงสถานะที่ \textit{มีความเป็นไปได้ทางกายภาพ} การเคลื่อนที่อย่างราบรื่นผ่านพื้นที่แฝง (Interpolation) จะสอดคล้องกับการเปลี่ยนแปลงทางกายภาพที่ราบรื่นระหว่างโครงสร้างสองแบบ เช่น การละลายของผลึกหรือการยืดตัวของโพลิเมอร์
+
+\begin{aibox}{แนวคิด: แมนิโฟลด์แฝง}
+ลองนึกภาพพื้นที่แฝงว่าเป็น "แผนที่" ของวัสดุที่เป็นไปได้ทั้งหมด ด้วยการระบุพื้นที่ของแผนที่ที่สอดคล้องกับการนำความร้อนสูงหรือแรงเสียดทานต่ำ เราจะสามารถนำทางไปยัง "พิกัด" ของวัสดุในอุดมคติที่ยังไม่มีการค้นพบได้อย่างคล่องตัว
+\end{aibox}
+
+\textbf{Generative Adversarial Network (GAN)} ใช้โครงข่ายสองตัวที่แข่งขันกันคือ ตัวสร้าง (Generator) และตัวจำแนก (Discriminator) "เกม" นี้บังคับให้ตัวสร้างผลิตโครงร่างข้อมูลที่แยกไม่ออกจากข้อมูลทางกายภาพจริง
+\end{thai}
+\end{paracol}

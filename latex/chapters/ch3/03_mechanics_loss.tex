@@ -1,0 +1,26 @@
+\subsection{Mechanics of Physics-Informed Loss \quad / \quad \textthai{กลไกของ Physics-Informed Loss}}
+\begin{paracol}{2}
+A PINN is trained by minimizing a total loss function that consists of two parts:
+\begin{equation}
+    \mathcal{L}_{total} = \mathcal{L}_{data} + \mathcal{L}_{physics}
+\end{equation}
+The physics loss $\mathcal{L}_{physics}$ is defined as the residual\index{Residual@ค่าคงเหลือ (Residual)} of the heat equation:
+\begin{equation}
+    f(x, t) = \pdv{u}{t} - \alpha \pdv[2]{u}{x} \approx 0
+\end{equation}
+By minimizing $f(x, t)^2$, the network effectively "solves" the PDE.
+
+\switchcolumn
+
+\begin{thai}
+PINN ถูกฝึกโดยการทำให้ฟังก์ชันการสูญเสียรวม (Total Loss Function) มีค่าน้อยที่สุด ซึ่งประกอบด้วยสองส่วน:
+\begin{equation}
+    \mathcal{L}_{total} = \mathcal{L}_{data} + \mathcal{L}_{physics}
+\end{equation}
+ฟังก์ชันการสูญเสียทางฟิสิกส์ $\mathcal{L}_{physics}$ ถูกกำหนดให้เป็นค่าคงเหลือ (Residual) ของสมการความร้อน:
+\begin{equation}
+    f(x, t) = \pdv{u}{t} - \alpha \pdv[2]{u}{x} \approx 0
+\end{equation}
+การทำให้ $f(x, t)^2$ มีค่าน้อยที่สุด ทำให้โครงข่าย "แก้" สมการ PDE ได้อย่างมีประสิทธิภาพ
+\end{thai}
+\end{paracol}

@@ -1,0 +1,16 @@
+\subsection{Hamiltonian Neural Networks (HNNs) \quad / \quad \textthai{Hamiltonian Neural Networks (HNNs)}}
+\begin{paracol}{2}
+An HNN does not predict the next state $(q_{t+1}, p_{t+1})$ directly. Instead, it predicts the total energy $H$. Then, it uses the chain rule to satisfy Hamilton's equations. The loss function is the difference between the actual and predicted time derivatives:
+\begin{equation}
+    \mathcal{L} = \| \dot{q} - \pdv{H}{p} \|^2 + \| \dot{p} + \pdv{H}{q} \|^2
+\end{equation}
+This ensures that the trajectory follows the level curves of $H$, thereby conserving energy by design.
+
+\switchcolumn
+
+HNN ไม่ทำนายสถานะถัดไป $(q_{t+1}, p_{t+1})$ โดยตรง แต่จะทำนายพลังงานรวม $H$ จากนั้นจึงใช้กฎลูกโซ่เพื่อให้สอดคล้องกับสมการของฮามิลตัน ฟังก์ชันการสูญเสียคือผลต่างระหว่างอนุพันธ์เทียบกับเวลาที่เกิดขึ้นจริงและที่ทำนายได้:
+\begin{equation}
+    \mathcal{L} = \| \dot{q} - \pdv{H}{p} \|^2 + \| \dot{p} + \pdv{H}{q} \|^2
+\end{equation}
+สิ่งนี้ช่วยให้มั่นใจได้ว่าวิถีโคจรจะดำเนินตามเส้นโค้งระดับ (Level Curves) ของ $H$ ส่งผลให้มีการอนุรักษ์พลังงานโดยการออกแบบสถาปัตยกรรมเอง
+\end{paracol}

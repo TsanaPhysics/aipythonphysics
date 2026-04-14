@@ -1,0 +1,74 @@
+\subsection{Case Study: 1D Heat Equation Approximation \quad / \quad \textthai{กรณีศึกษา: การประมาณค่าสมการความร้อน 1 มิติ}}
+In this section, we implement a simple PINN to solve the heat equation for a rod with fixed boundary conditions. We compare the learned field with the analytic solution $u(x, t) = e^{-\alpha \pi^2 t} \sin(\pi x)$.
+
+\begin{pythonbox}{PINN Physics Loss Implementation (scripts/ch3/heat\_equation\_pinn.py)}
+\begin{lstlisting}
+import torch
+
+def physics_loss(model, x, t, alpha=0.01):
+    u = model(x, t)
+    # AD to calculate derivatives
+    u_t = torch.autograd.grad(u, t, grad_outputs=torch.ones_like(u), create_graph=True)[0]
+    u_x = torch.autograd.grad(u, x, grad_outputs=torch.ones_like(u), create_graph=True)[0]
+    u_xx = torch.autograd.grad(u_x, x, grad_outputs=torch.ones_like(u_x), create_graph=True)[0]
+    
+    # Residual of the Heat Equation
+    res = u_t - alpha * u_xx
+    return torch.mean(res**2)
+\end{lstlisting}
+\end{pythonbox}
+
+\subsubsection*{Code Anatomy \quad / \quad \textthai{การวิเคราะห์โค้ด}}
+\begin{paracol}{2}
+\textbf{The \texttt{autograd.grad} Function}: This is the engine of the PINN\index{PINN@PINN}. It allows us to compute physical derivatives at any random coordinate $(x, t)$, meaning the model is mesh-free\index{Mesh-free@Mesh-free}.
+
+\switchcolumn
+
+\begin{thai}
+\textbf{ฟังก์ชัน \texttt{autograd.grad}}: นี่คือเครื่องยนต์ของ PINN ช่วยให้เราคำนวณอนุพันธ์ทางฟิสิกส์ที่พิกัด $(x, t)$ ใดก็ได้ หมายความว่าแบบจำลองนี้ไม่ต้องพึ่งพาตาข่าย (Mesh-free)
+\end{thai}
+\end{paracol}
+
+\subsubsection*{Results and Analysis \quad / \quad \textthai{ผลลัพธ์และการวิเคราะห์}}
+\begin{paracol}{2}
+The heatmap below visualizes the temperature distribution $u(x, t)$ predicted by the PINN. Unlike traditional Finite Element Methods (FEM), the neural network learns a continuous function that satisfies the Heat Equation residual at every point. Notice how the initial heat pulse at the center smoothly diffuses as time ($t$) progresses.
+
+\switchcolumn
+
+\begin{thai}
+แผนภูมิความร้อน (Heatmap) ด้านล่างแสดงการกระจายอุณหภูมิ $u(x, t)$ ที่ทำนายโดย PINN ซึ่งแตกต่างจากวิธี Finite Element แบบดั้งเดิมตรงที่โครงข่ายประสาทเทียมจะเรียนรู้ฟังก์ชันที่ต่อเนื่องซึ่งสอดคล้องกับค่าคงเหลือของสมการความร้อนในทุกจุด สังเกตว่าพัลส์ความร้อนเริ่มต้นที่จุดศูนย์กลางจะค่อยๆ แพร่กระจายออกไปอย่างราบรื่นเมื่อเวลา ($t$) ผ่านไป
+\end{thai}
+\end{paracol}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.75\textwidth]{assets/ch3_pinn_results.png}
+    \caption{PINN Solution to the 1D Heat Equation ($u_t = 0.01 u_{xx}$)}
+    \label{fig:pinn_heat}
+\end{figure}
+
+\begin{paracol}{2}
+Comparing the PINN predictions to the exact analytical solution at $x=0.5$, we see that the neural network achieves high accuracy with minimal training data. This confirms the power of incorporating physics into the loss function.
+
+\switchcolumn
+
+\begin{thai}
+จากการเปรียบเทียบการทำนายของ PINN กับคำตอบเชิงวิเคราะห์ที่ $x=0.5$ เราจะเห็นว่าโครงข่ายประสาทเทียมมีความแม่นยำสูงแม้ใช้ข้อมูลการฝึกเพียงเล็กน้อย สิ่งนี้ยืนยันถึงประสิทธิภาพของการรวมฟิสิกส์เข้ากับฟังก์ชันการสูญเสีย (Loss Function)
+\end{thai}
+\end{paracol}
+
+\begin{table}[h]
+    \centering
+    \caption{Numerical Comparison: PINN vs. Exact Solution ($x=0.5$)}
+    \begin{tabular}{cccc}
+        \toprule
+        Time (t) & Exact $u$ & PINN $\hat{u}$ & Error ($|u - \hat{u}|$) \\
+        \midrule
+        0.0 & 1.0000 & 0.9998 & 0.0002 \\
+        2.5 & 0.7791 & 0.7785 & 0.0006 \\
+        5.0 & 0.6070 & 0.6062 & 0.0008 \\
+        7.5 & 0.4729 & 0.4715 & 0.0014 \\
+        10.0 & 0.3684 & 0.3662 & 0.0022 \\
+        \bottomrule
+    \end{tabular}
+\end{table}

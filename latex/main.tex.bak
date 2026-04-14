@@ -1,0 +1,33 @@
+\documentclass[12pt, a4paper, oneside]{book}
+\input{preamble}
+\makeindex
+
+\begin{document}
+
+% --- Front Matter ---
+\frontmatter
+\input{front_matter/title}
+\input{front_matter/preface}
+\tableofcontents
+\listoffigures
+\listoftables
+
+% --- Main Matter ---
+\mainmatter
+\input{chapters/ch1}
+\input{chapters/ch2}
+\input{chapters/ch3}
+\input{chapters/ch4}
+\input{chapters/ch5}
+\input{chapters/ch6}
+\input{chapters/ch7}
+\input{chapters/ch8}
+\input{chapters/ch9}
+\input{chapters/ch10}
+
+% --- Back Matter ---
+\backmatter
+\input{back_matter/references}
+\printindex
+
+\end{document}

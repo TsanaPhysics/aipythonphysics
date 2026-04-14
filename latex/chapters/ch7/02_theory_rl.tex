@@ -1,0 +1,30 @@
+\subsection{Mathematics of Optimal Control \quad / \quad \textthai{คณิตศาสตร์ของการควบคุมที่เหมาะสมที่สุด}}
+\begin{paracol}{2}
+The mathematical foundation of RL is the \textbf{Markov Decision Process (MDP)}\index{MDP@กระบวนการตัดสินใจมาร์คอฟ (MDP)}. In an MDP, we define the agent's goal as maximizing the \textbf{Cumulative Discounted Reward} $G_t$:
+\begin{equation}
+    G_t = \sum_{k=0}^{\infty} \gamma^k R_{t+k+1}
+\end{equation}
+where $\gamma \in [0, 1]$ is the discount factor, representing the trade-off between immediate and future rewards.
+
+To solve this, we use the \textbf{Bellman Equation}\index{Bellman Equation@สมการเบลล์แมน (Bellman Equation)}. It expresses the \textbf{Action-Value Function}\index{Q-value@ค่า Q (Q-value)} $Q(s, a)$—the expected return starting from state $s$, taking action $a$, and following policy $\pi$ thereafter:
+\begin{equation}
+    Q^{\pi}(s, a) = \mathbb{E}_{\pi} [R_{t+1} + \gamma Q^{\pi}(S_{t+1}, A_{t+1}) | S_t=s, A_t=a]
+\end{equation}
+In a physical context, $Q(s, a)$ can be viewed as the "Energy Potential" of a control strategy. The higher the Q-value, the more stable or efficient the resulting physical trajectory will be. Deep Q-Networks (DQN) use neural networks to approximate this $Q$ function, allowing the AI to learn stability in vast, continuous state spaces.
+
+\switchcolumn
+
+\begin{thai}
+รากฐานทางคณิตศาสตร์ของ RL คือ \textbf{กระบวนการตัดสินใจแบบมาร์คอฟ (MDP)} ใน MDP เรากำหนดเป้าหมายของเอเยนต์คือการเพิ่ม \textbf{รางวัลสะสมแบบลดค่า (Cumulative Discounted Reward)} $G_t$ ให้สูงสุด:
+\begin{equation}
+    G_t = \sum_{k=0}^{\infty} \gamma^k R_{t+k+1}
+\end{equation}
+โดยที่ $\gamma \in [0, 1]$ คือปัจจัยส่วนลด (Discount factor) ซึ่งแสดงถึงการแลกเปลี่ยนระหว่างรางวัลทันทีและรางวัลในอนาคต
+
+ในการแก้ปัญหานี้ เราใช้ \textbf{สมการเบลล์แมน (Bellman Equation)} ซึ่งแสดงถึง \textbf{ฟังก์ชันค่าการกระทำ (Action-Value Function)} $Q(s, a)$ หรือที่เรียกว่าค่า Q:
+\begin{equation}
+    Q^{\pi}(s, a) = \mathbb{E}_{\pi} [R_{t+1} + \gamma Q^{\pi}(S_{t+1}, A_{t+1}) | S_t=s, A_t=a]
+\end{equation}
+ในบริบททางฟิสิกส์ $Q(s, a)$ สามารถมองได้ว่าเป็น "ศักย์พลังงาน" ของกลยุทธ์การควบคุม ยิ่งค่า Q สูงเท่าใด วิถีทางกายภาพที่เกิดขึ้นก็จะยิ่งมีความเสถียรหรือมีประสิทธิภาพมากขึ้นเท่านั้น Deep Q-Networks (DQN) ใช้โครงข่ายประสาทเทียมเพื่อประมาณค่าฟังก์ชัน $Q$ นี้ ช่วยให้ AI เรียนรู้เสถียรภาพในปริภูมิสถานะที่กว้างใหญ่และต่อเนื่องได้
+\end{thai}
+\end{paracol}

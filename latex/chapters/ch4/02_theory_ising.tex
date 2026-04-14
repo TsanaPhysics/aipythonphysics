@@ -1,0 +1,20 @@
+\subsection{Theory: The 2D Ising Model \quad / \quad \textthai{ทฤษฎี: โมเดลไอซิ่ง (Ising Model)}}
+\begin{paracol}{2}
+One of the most important models in statistical and quantum mechanics is the Ising Model\index{Ising Model@แบบจำลองไอซิง (Ising Model)}, which describes magnetic phase transitions\index{Phase Transition@การเปลี่ยนสถานะ (Phase Transition)}. The Hamiltonian (energy) of the system is:
+\begin{equation}
+    H = -J \sum_{\langle i,j \rangle} \sigma_i \sigma_j - h \sum_i \sigma_i
+\end{equation}
+where $\sigma_i \in \{+1, -1\}$ represents the spin, $J$ is the interaction strength, and $h$ is the external magnetic field. 
+
+As temperature $T$ changes, the system undergoes a phase transition at a critical temperature $T_c$. Below $T_c$, the spins align (Ferromagnetic phase), while above $T_c$, they are random (Paramagnetic phase). Identifying these phases automatically is a perfect task for AI.
+
+\switchcolumn
+
+\begin{thai}
+โมเดลไอซิ่งหนึ่งมิติเป็นต้นแบบของการเปลี่ยนสถานะ (Phase Transition) ในระบบฟิสิกส์สถิติ เราแทนที่สปินด้วยตัวแปร $\pm 1$ และต้องการหาพลังงานต่ำสุดของฮามิลโทเนียน:
+\begin{equation}
+    H = -J \sum_{\langle i,j \rangle} \sigma_i \sigma_j - h \sum_i \sigma_i
+\end{equation}
+AI เข้าช่วยโดยการฝึกจำแนกสถานะ "มีระเบียบ (Ordered)" และ "ไร้ระเบียบ (Disordered)" จากภาพถ่ายสปินจำลอง
+\end{thai}
+\end{paracol}
