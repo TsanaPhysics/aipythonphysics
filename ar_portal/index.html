@@ -5,54 +5,82 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Physics xAI AR Portal</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Scripts in Head with async to not block but ready before scene -->
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.1.4/dist/mindar-image-aframe.prod.js"></script>
+
     <style>
         body { margin: 0; overflow: hidden; font-family: 'Inter', sans-serif; background: #000; color: white; }
         #debug-console {
             position: absolute; top: 10px; left: 10px; right: 10px;
-            background: rgba(0, 0, 0, 0.8); color: #00ffaa;
-            font-family: monospace; font-size: 10px; padding: 10px;
-            border-radius: 12px; z-index: 3000; max-height: 80px; overflow-y: auto; pointer-events: none;
+            background: rgba(0, 0, 0, 0.85); color: #00ffaa;
+            font-family: monospace; font-size: 10px; padding: 12px;
+            border-radius: 12px; z-index: 3000; max-height: 90px; overflow-y: auto;
+            border: 1px solid #00ffaa33;
         }
         #startup-overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at center, #111 0%, #000 100%);
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            z-index: 2000; transition: opacity 0.5s ease;
+            background: #000; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; z-index: 2000;
         }
         .main-card {
-            background: rgba(255,255,255,0.05); padding: 40px; border-radius: 30px;
-            border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(20px);
-            text-align: center; max-width: 80%; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            background: #111; padding: 40px; border-radius: 30px;
+            border: 1px solid #333; text-align: center; max-width: 85%;
         }
         .start-btn {
-            background: #00ffaa; color: #000; padding: 20px 40px; border-radius: 50px;
+            background: #00ffaa; color: #000; padding: 22px 45px; border-radius: 50px;
             border: none; font-weight: 700; font-size: 18px; cursor: pointer;
-            text-transform: uppercase; letter-spacing: 2px;
-            box-shadow: 0 0 30px rgba(0,255,170,0.4); display: none;
-            transition: transform 0.2s;
+            box-shadow: 0 0 30px rgba(0,255,170,0.5); display: none;
         }
-        .start-btn:active { transform: scale(0.95); }
-        #status-dots { font-size: 14px; color: #888; margin-top: 20px; }
         #scan-guide {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 70vw; height: 70vw; border: 2px dashed rgba(0,255,170,0.3); border-radius: 40px;
-            pointer-events: none; z-index: 500; display: none;
+            width: 75vw; height: 75vw; border: 2px dashed #00ffaa; border-radius: 40px;
+            pointer-events: none; z-index: 1000; display: none; opacity: 0.5;
         }
     </style>
 </head>
 <body>
-    <div id="debug-console">> Initializing System v1.0.9...</div>
+    <div id="debug-console">> Initializing System v1.1.0...</div>
 
     <div id="startup-overlay">
         <div class="main-card">
-            <h1 style="color: #00ffaa; margin: 0 0 10px 0; font-size: 24px;">Physics xAI Portal</h1>
-            <p id="status-msg" style="color: #aaa; margin-bottom: 30px;">Loading AR Libraries...</p>
-            <button id="start-btn" class="start-btn" onclick="startAR()">Start AR Portal</button>
-            <div id="status-dots">● ● ●</div>
+            <h1 style="color: #00ffaa; margin-bottom: 5px;">Physics xAI Portal</h1>
+            <p id="status-msg" style="color: #888; margin-bottom: 30px;">Loading Core Modules...</p>
+            <button id="start-btn" class="start-btn" onclick="startSystem()">ACTIVATE PORTAL</button>
         </div>
     </div>
 
     <div id="scan-guide"></div>
+
+    <!-- Static Scene with autoStart: false -->
+    <a-scene 
+        id="ar-scene"
+        mindar-image="imageTargetSrc: assets/targets/targets.mind; autoStart: false; uiLoading: no; uiScanning: no;" 
+        color-space="sRGB" 
+        renderer="colorManagement: true, physicallyCorrectLights" 
+        vr-mode-ui="enabled: false"
+        device-orientation-permission-ui="enabled: false">
+        
+        <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+
+        <!-- Chapter 1 -->
+        <a-entity mindar-image-target="targetIndex: 0">
+            <a-sphere radius="0.1" color="#f39c12"></a-sphere>
+        </a-entity>
+        
+        <!-- Chapter 2-10 mapping... simplified for stability -->
+        <a-entity mindar-image-target="targetIndex: 1"><a-sphere radius="0.1" color="#f1c40f"></a-sphere></a-entity>
+        <a-entity mindar-image-target="targetIndex: 2"><a-box scale="0.15 0.15 0.15" color="#e67e22"></a-box></a-entity>
+        <a-entity mindar-image-target="targetIndex: 3"><a-box scale="0.15 0.15 0.15" color="#34495e"></a-box></a-entity>
+        <a-entity mindar-image-target="targetIndex: 4"><a-ring radius-inner="0.08" radius-outer="0.1" color="#e74c3c"></a-entity>
+        <a-entity mindar-image-target="targetIndex: 5"><a-sphere radius="0.1" color="#2ecc71"></a-sphere></a-entity>
+        <a-entity mindar-image-target="targetIndex: 6"><a-cylinder radius="0.05" height="0.2" color="#95a5a6"></a-entity>
+        <a-entity mindar-image-target="targetIndex: 7"><a-pawn scale="0.1 0.1 0.1" color="#f39c12"></a-entity>
+        <a-entity mindar-image-target="targetIndex: 8"><a-box scale="0.15 0.15 0.15" color="#3498db"></a-box></a-entity>
+        <a-entity mindar-image-target="targetIndex: 9"><a-dodecahedron radius="0.1" color="#8e44ad"></a-dodecahedron></a-entity>
+
+    </a-scene>
 
     <script>
         const log = (msg) => {
@@ -60,68 +88,40 @@
             if (el) { el.innerHTML += `<br>> ${msg}`; el.scrollTop = el.scrollHeight; }
         };
 
-        const loadScript = (url, name) => {
-            return new Promise((resolve, reject) => {
-                const script = document.createElement('script');
-                script.src = url;
-                script.onload = () => { log(`OK: ${name}`); resolve(); };
-                script.onerror = () => { log(`FAIL: ${name}`); reject(); };
-                document.head.appendChild(script);
-            });
-        };
-
-        async function init() {
-            log("v1.0.9 - iOS Security Patch");
+        window.addEventListener('load', () => {
+            log("v1.1.0 - PROD RELEASE");
             
-            // Step 1: Load Libraries
-            try {
-                await loadScript('https://aframe.io/releases/1.2.0/aframe.min.js', "AFRAME");
-                await loadScript('https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.1.4/dist/mindar-image-aframe.prod.js', "MindAR");
-                
-                log("All Libraries Loaded.");
-                document.getElementById('status-msg').innerText = "System Ready. Click below to activate camera.";
-                document.getElementById('start-btn').style.display = 'block';
-                document.getElementById('status-dots').style.display = 'none';
-            } catch(e) {
-                log("CRITICAL LOAD ERROR");
-                document.getElementById('status-msg').innerText = "Network Error: Failed to load AR scripts.";
+            // Verify Assets
+            fetch('assets/targets/targets.mind').then(r => log(`Asset Fetch: ${r.status}`));
+            
+            // Show Button
+            setTimeout(() => {
+                document.getElementById('status-msg').innerText = "System Synchronized. Click below.";
+                document.getElementById('start-btn').style.display = 'inline-block';
+            }, 1000);
+        });
+
+        function startSystem() {
+            log("User Activate: Starting MindAR...");
+            const sceneEl = document.querySelector('a-scene');
+            const arSystem = sceneEl.systems['mindar-image-system'];
+            
+            if (arSystem) {
+                arSystem.start(); // Direct manual start
+                log("Signal Sent: Camera Booting");
+            } else {
+                log("ERR: AR System not found");
             }
 
-            // Asset Pre-check
-            fetch('assets/targets/targets.mind').then(r => log(`Asset targets.mind: ${r.status}`));
-        }
-
-        function startAR() {
-            log("User gesture received. Starting AR...");
-            
-            const scene = document.createElement('a-scene');
-            scene.setAttribute('mindar-image', 'imageTargetSrc: assets/targets/targets.mind; autoStart: true; uiLoading: no;');
-            scene.setAttribute('vr-mode-ui', 'enabled: false');
-            scene.setAttribute('embedded', '');
-            
-            scene.innerHTML = `
-                <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
-                <a-entity mindar-image-target="targetIndex: 0">
-                    <a-sphere radius="0.1" color="#00ffaa" animation="property: rotation; to: 0 360 0; dur: 3000; loop: true"></a-sphere>
-                </a-entity>
-                <a-entity mindar-image-target="targetIndex: 1">
-                    <a-box scale="0.15 0.15 0.15" color="#00ffaa"></a-box>
-                </a-entity>
-            `;
-
-            scene.addEventListener('arReady', () => {
-                log("AR READY: Tracking Active");
-                document.getElementById('startup-overlay').style.opacity = '0';
-                setTimeout(() => {
-                    document.getElementById('startup-overlay').style.display = 'none';
-                    document.getElementById('scan-guide').style.display = 'block';
-                }, 500);
+            sceneEl.addEventListener('arReady', () => {
+                log("STATE: AR Ready!");
+                document.getElementById('startup-overlay').style.display = 'none';
+                document.getElementById('scan-guide').style.display = 'block';
             });
-
-            document.body.appendChild(scene);
         }
-
-        init();
+        
+        // Error handling
+        window.addEventListener('error', (e) => log(`RUNTIME ERR: ${e.message}`));
     </script>
 </body>
 </html>
