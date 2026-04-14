@@ -76,7 +76,18 @@
                 el.scrollTop = el.scrollHeight;
             };
 
-            log("v1.0.2 - Initializing");
+            log("v1.0.3 - Asset Check");
+
+            // Manual Fetch Check for targets.mind
+            fetch('assets/targets/targets.mind')
+                .then(response => {
+                    if(response.ok) log(`Fetch: targets.mind FOUND (${response.status})`);
+                    else {
+                        log(`Fetch: targets.mind MISSING (Status ${response.status})`);
+                        document.getElementById('status-desc').innerHTML = `<b>Error:</b> targets.mind not found at assets/targets/ (HTTP ${response.status})`;
+                    }
+                })
+                .catch(err => log(`Fetch: Error connecting to file: ${err.message}`));
 
             const sceneEl = document.querySelector('a-scene');
             sceneEl.addEventListener("arReady", () => {
