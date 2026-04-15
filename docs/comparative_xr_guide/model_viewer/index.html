@@ -55,15 +55,15 @@
 <body>
     <header>
         <div>
-            <h1 style="font-size: 1.5rem; margin: 0;">Interactive Soil Probe</h1>
-            <span style="color: var(--p); font-size: 0.8rem; font-weight: 700;">AGRICULTURE 6.0 REFERENCE</span>
+            <h1 style="font-size: 1.5rem; margin: 0;">Smart Farm IoT Hub</h1>
+            <span style="color: var(--p); font-size: 0.8rem; font-weight: 700;">ESP32-CAM + SENSOR INTEGRATION</span>
         </div>
         <a href="../index.html" class="back-btn">&larr; Back to Dashboard</a>
     </header>
 
     <model-viewer 
-        src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" 
-        alt="Interactive Soil Sensor Model" 
+        src="https://modelviewer.dev/shared-assets/models/glTF-Sample-Assets/Models/DamagedHelmet/glTF-Binary/DamagedHelmet.glb" 
+        alt="ESP32-CAM IoT Hardware Model" 
         ar ar-modes="webxr scene-viewer quick-look" 
         camera-controls 
         shadow-intensity="2" 
@@ -72,19 +72,24 @@
         environment-image="neutral"
         auto-rotate>
         
-        <!-- Hotspot: Nitrogen Probe -->
-        <button class="hotspot" slot="hotspot-1" data-position="0.2m 1.5m 0.3m" data-normal="0m 1m 0m">
-            <div class="annotation">N-P-K Sensor Probe (Depth tracking enabled)</div>
+        <!-- Hotspot: Camera Lens -->
+        <button class="hotspot" slot="hotspot-1" data-position="0.2m 1m 0.3m" data-normal="0m 1m 0m">
+            <div class="annotation">ESP32-CAM Lens (Visual Al Analysis)</div>
         </button>
 
-        <!-- Hotspot: Battery / WiFi Module -->
-        <button class="hotspot" slot="hotspot-2" data-position="-0.2m 1.7m -0.2m" data-normal="0m 1m 0m">
-            <div class="annotation">LoraWAN Communication Module</div>
+        <!-- Hotspot: WiFi/Antenna -->
+        <button class="hotspot" slot="hotspot-2" data-position="-0.3m 1.2m -0.2m" data-normal="0m 1m 0m">
+            <div class="annotation">LoraWAN / 2.4GHz WiFi Antenna</div>
+        </button>
+
+        <!-- Hotspot: Sensor Array -->
+        <button class="hotspot" slot="hotspot-3" data-position="0.1m 0.5m 0.1m" data-normal="0m 1m 0m">
+            <div class="annotation">Sensor Bus: NPK-pH-Moisture</div>
         </button>
 
         <div class="info-panel">
-            <h2>Agricultural Hardware Inspection</h2>
-            <p>Using <b>Google Model-viewer</b>, we can inspect intricate agricultural hardware like the NPK-pH Soil Probe. Technical annotations (Hotspots) allow students to learn about component functionality while interacting with the AR model in their desk space.</p>
+            <h2>Hardware Architecture: IoT Smart Farm</h2>
+            <p>Visualizing an <b>ESP32-CAM driven node</b>. In modern agriculture, these edge devices capture real-time images and soil telemetry, sending data via LoraWAN to the central Python backend for predictive analysis.</p>
         </div>
     </model-viewer>
 </body>
