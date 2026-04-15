@@ -67,33 +67,40 @@
 
         // Scene Setup
         const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x050506);
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
         document.getElementById('canvas-container').appendChild(renderer.domElement);
 
         // Lighting
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
         scene.add(ambientLight);
-        const pointLight = new THREE.PointLight(0xff8c00, 1.5);
+        const pointLight = new THREE.PointLight(0xff8c00, 2);
         pointLight.position.set(5, 5, 5);
         scene.add(pointLight);
+
+        // Grid Helper for context
+        const grid = new THREE.GridHelper(10, 10, 0x333333, 0x111111);
+        grid.position.y = -1;
+        scene.add(grid);
 
         // Physical World
         const world = new CANNON.World();
         world.gravity.set(0, -9.82, 0);
 
-        // Pivot (Fixed)
+        // Pivot (Fixed) - Moved lower for better visibility
         const pivotBody = new CANNON.Body({ mass: 0 });
-        pivotBody.position.set(0, 5, 0);
+        pivotBody.position.set(0, 4, 0);
         world.addBody(pivotBody);
 
-        // Pendulum Bob
-        const bobShape = new CANNON.Sphere(0.4);
-        const bobBody = new CANNON.Body({ mass: 1 });
+        // Pendulum Bob - Increased size for 'Wow' factor
+        const bobShape = new CANNON.Sphere(0.8);
+        const bobBody = new CANNON.Body({ mass: 2 });
         bobBody.addShape(bobShape);
-        bobBody.position.set(2, 5, 0); // Start at an angle
-        bobBody.linearDamping = 0.05; // Slight air resistance
+        bobBody.position.set(3, 4, 0); 
+        bobBody.linearDamping = 0.02; 
         world.addBody(bobBody);
 
         // String (Constraint)
@@ -101,20 +108,24 @@
         world.addConstraint(constraint);
 
         // Three.js Meshes
-        const pivotMesh = new THREE.Mesh(new THREE.SphereGeometry(0.1), new THREE.MeshStandardMaterial({ color: 0x999999 }));
-        pivotMesh.position.set(0, 5, 0);
+        const pivotMesh = new THREE.Mesh(new THREE.SphereGeometry(0.15), new THREE.MeshStandardMaterial({ color: 0xFFFFFF }));
         scene.add(pivotMesh);
 
-        const bobMesh = new THREE.Mesh(new THREE.SphereGeometry(0.4, 32, 32), new THREE.MeshStandardMaterial({ color: 0xff8c00, roughness: 0.1, metalness: 0.8 }));
+        const bobMesh = new THREE.Mesh(new THREE.SphereGeometry(0.8, 64, 64), new THREE.MeshStandardMaterial({ 
+            color: 0xff8c00, 
+            roughness: 0.1, 
+            metalness: 0.9,
+            emissive: 0xff4400,
+            emissiveIntensity: 0.1
+        }));
         scene.add(bobMesh);
 
         const lineGeometry = new THREE.BufferGeometry();
-        const lineMaterial = new THREE.LineBasicMaterial({ color: 0x555555 });
+        const lineMaterial = new THREE.LineBasicMaterial({ color: 0x888888, linewidth: 2 });
         const line = new THREE.Line(lineGeometry, lineMaterial);
         scene.add(line);
 
-        camera.position.z = 8;
-        camera.position.y = 4;
+        camera.position.set(0, 2, 6); // Tighter focus
 
         // UI Controls
         const gravitySlider = document.getElementById('gravitySlider');
@@ -132,17 +143,15 @@
             requestAnimationFrame(animate);
             world.step(1 / 60);
 
+            pivotMesh.position.copy(pivotBody.position);
             bobMesh.position.copy(bobBody.position);
-            bobMesh.quaternion.copy(bobBody.quaternion);
-
+            
             // Update string line
-            const points = [new THREE.Vector3(0, 5, 0), bobMesh.position];
+            const points = [pivotBody.position, bobBody.position];
             lineGeometry.setFromPoints(points);
 
             // Telemetry Update
-            const angle = Math.atan2(bobBody.position.x, 5 - bobBody.position.y);
             telemetry.innerHTML = `
-                Angle: ${angle.toFixed(2)} rad<br>
                 Pos X: ${bobBody.position.x.toFixed(2)}m<br>
                 Pos Y: ${bobBody.position.y.toFixed(2)}m<br>
                 Vel: ${bobBody.velocity.length().toFixed(2)} m/s
