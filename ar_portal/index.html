@@ -63,43 +63,106 @@
         vr-mode-ui="enabled: false"
         device-orientation-permission-ui="enabled: false">
         
+        <a-assets>
+            <!-- Pre-defining standard materials if needed -->
+        </a-assets>
+
         <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
-        <!-- Chapter 1 -->
-        <a-entity mindar-image-target="targetIndex: 0">
-            <a-sphere radius="0.1" color="#f39c12"></a-sphere>
+        <!-- Global Lighting -->
+        <a-light type="ambient" color="#BBB"></a-light>
+        <a-light type="directional" color="#FFF" intensity="0.6" position="-0.5 1 1"></a-light>
+
+        <!-- Chapter 1 (Index 0) - target1.png -->
+        <a-entity mindar-image-target="targetIndex: 0" class="ar-target" data-name="Chapter 1">
+            <a-sphere radius="0.1" color="#f39c12" position="0 0 0"></a-sphere>
+            <a-text value="Chapter 1: Found" position="0 0.2 0" align="center" scale="0.3 0.3 0.3" color="#00ffaa"></a-text>
         </a-entity>
         
-        <!-- Chapter 2-10 mapping... simplified for stability -->
-        <a-entity mindar-image-target="targetIndex: 1"><a-sphere radius="0.1" color="#f1c40f"></a-sphere></a-entity>
-        <a-entity mindar-image-target="targetIndex: 2"><a-box scale="0.15 0.15 0.15" color="#e67e22"></a-box></a-entity>
-        <a-entity mindar-image-target="targetIndex: 3"><a-box scale="0.15 0.15 0.15" color="#34495e"></a-box></a-entity>
-        <a-entity mindar-image-target="targetIndex: 4"><a-ring radius-inner="0.08" radius-outer="0.1" color="#e74c3c"></a-entity>
-        <a-entity mindar-image-target="targetIndex: 5"><a-sphere radius="0.1" color="#2ecc71"></a-sphere></a-entity>
-        <a-entity mindar-image-target="targetIndex: 6"><a-cylinder radius="0.05" height="0.2" color="#95a5a6"></a-entity>
-        <a-entity mindar-image-target="targetIndex: 7"><a-pawn scale="0.1 0.1 0.1" color="#f39c12"></a-entity>
-        <a-entity mindar-image-target="targetIndex: 8"><a-box scale="0.15 0.15 0.15" color="#3498db"></a-box></a-entity>
-        <a-entity mindar-image-target="targetIndex: 9"><a-dodecahedron radius="0.1" color="#8e44ad"></a-dodecahedron></a-entity>
+        <!-- Chapter 2 (Index 1) - target2.png -->
+        <a-entity mindar-image-target="targetIndex: 1" class="ar-target" data-name="Chapter 2">
+            <a-sphere radius="0.1" color="#f1c40f" position="0 0 0"></a-sphere>
+            <a-text value="Chapter 2: Found" position="0 0.2 0" align="center" scale="0.3 0.3 0.3" color="#00ffaa"></a-text>
+        </a-entity>
+
+        <!-- Other Chapters mapping -->
+        <a-entity mindar-image-target="targetIndex: 2" class="ar-target" data-name="Chapter 3">
+            <a-box scale="0.15 0.15 0.15" color="#e67e22"></a-box>
+            <a-text value="Chapter 3" position="0 0.2 0" align="center" scale="0.3 0.3 0.3"></a-text>
+        </a-entity>
+
+        <a-entity mindar-image-target="targetIndex: 3" class="ar-target" data-name="Chapter 4">
+            <a-box scale="0.15 0.15 0.15" color="#34495e"></a-box>
+            <a-text value="Chapter 4" position="0 0.2 0" align="center" scale="0.3 0.3 0.3"></a-text>
+        </a-entity>
+
+        <a-entity mindar-image-target="targetIndex: 4" class="ar-target" data-name="Chapter 5">
+            <a-ring radius-inner="0.08" radius-outer="0.1" color="#e74c3c"></a-ring>
+            <a-text value="Chapter 5" position="0 0.2 0" align="center" scale="0.3 0.3 0.3"></a-text>
+        </a-entity>
+
+        <a-entity mindar-image-target="targetIndex: 5" class="ar-target" data-name="Chapter 6">
+            <a-sphere radius="0.1" color="#2ecc71"></a-sphere>
+            <a-text value="Chapter 6" position="0 0.2 0" align="center" scale="0.3 0.3 0.3"></a-text>
+        </a-entity>
+
+        <a-entity mindar-image-target="targetIndex: 6" class="ar-target" data-name="Chapter 7">
+            <a-cylinder radius="0.05" height="0.2" color="#95a5a6"></a-cylinder>
+            <a-text value="Chapter 7" position="0 0.2 0" align="center" scale="0.3 0.3 0.3"></a-text>
+        </a-entity>
+
+        <a-entity mindar-image-target="targetIndex: 7" class="ar-target" data-name="Chapter 8">
+            <a-sphere radius="0.1" color="#f39c12"></a-sphere>
+            <a-text value="Chapter 8" position="0 0.2 0" align="center" scale="0.3 0.3 0.3"></a-text>
+        </a-entity>
+
+        <a-entity mindar-image-target="targetIndex: 8" class="ar-target" data-name="Chapter 9">
+            <a-box scale="0.15 0.15 0.15" color="#3498db"></a-box>
+            <a-text value="Chapter 9" position="0 0.2 0" align="center" scale="0.3 0.3 0.3"></a-text>
+        </a-entity>
+
+        <a-entity mindar-image-target="targetIndex: 9" class="ar-target" data-name="Chapter 10">
+            <a-dodecahedron radius="0.1" color="#8e44ad"></a-dodecahedron>
+            <a-text value="Chapter 10" position="0 0.2 0" align="center" scale="0.3 0.3 0.3"></a-text>
+        </a-entity>
 
     </a-scene>
 
     <script>
         const log = (msg) => {
             const el = document.getElementById('debug-console');
-            if (el) { el.innerHTML += `<br>> ${msg}`; el.scrollTop = el.scrollHeight; }
+            if (el) { 
+                const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                el.innerHTML += `<br>[${timestamp}] > ${msg}`; 
+                el.scrollTop = el.scrollHeight; 
+            }
         };
 
         let systemInitialized = false;
 
-        // Script loading verification
         window.addEventListener('error', (e) => log(`RUNTIME ERR: ${e.message}`));
 
         window.addEventListener('load', () => {
-            log("v1.1.3 - CORE FIX");
+            log("v1.1.7 - DIAGNOSTIC MODE");
             
             const sceneEl = document.querySelector('a-scene');
             const statusMsg = document.getElementById('status-msg');
             const startBtn = document.getElementById('start-btn');
+
+            // Attach Tracking Listeners
+            const targets = document.querySelectorAll('.ar-target');
+            targets.forEach(target => {
+                const name = target.getAttribute('data-name');
+                const index = target.getAttribute('targetIndex');
+
+                target.addEventListener("targetFound", (event) => {
+                    log(`<span style="color: #fff; background: #007755; padding: 2px 5px; border-radius: 4px;">FOUND: ${name}</span>`);
+                });
+
+                target.addEventListener("targetLost", (event) => {
+                    log(`Lost: ${name}`);
+                });
+            });
 
             const initSystemCheck = () => {
                 log("STATE: Initializing System Check...");
@@ -119,20 +182,16 @@
                 checkSystem();
             };
 
-            // Handle both event and pre-loaded state
             if (sceneEl.hasLoaded) {
-                log("STATE: Scene Already Loaded");
                 initSystemCheck();
             } else {
                 sceneEl.addEventListener('loaded', () => {
-                    log("STATE: A-Frame Scene Loaded");
                     initSystemCheck();
                 });
             }
 
-            // Fallback for asset verification
             fetch('assets/targets/targets.mind').then(r => {
-                log(`Asset Fetch: ${r.status}`);
+                log(`Asset Fetch: ${r.status} (${Math.round(r.headers.get('content-length')/1024) || '?'} KB)`);
             }).catch(e => log(`ERR: Fetch Failed: ${e.message}`));
         });
 
@@ -153,8 +212,6 @@
                 } catch (e) {
                     log(`ERR: Boot Failed: ${e.message}`);
                 }
-            } else {
-                log("ERR: AR System disappeared!");
             }
 
             sceneEl.addEventListener('arReady', () => {
