@@ -10,6 +10,11 @@ PlayCanvas เป็นเอนจิ้น WebGL ที่มีประส�
 ## กรณีศึกษา: การเติบโตของจุลินทรีย์ (Bacterial Colony Simulation)
 การจำลองการเติบโตของเชื้อ *E. coli* บนจานเพาะเชื้อโดยใช้สคริปต์เพื่อควบคุมขนาดของโมเดลตามเวลาที่ผ่านไป
 
+> [!TIP]
+> **Visual Output:** [ 📸 *ภาพจำลองใน PlayCanvas: กลุ่มแบคทีเรีย (Colonies) สีเหลืองส้มค่อยๆ ขยายตัวบนจานวุ้นเพาะเชื้อ พร้อมเอฟเฟกต์ความเงาของอินทรียภาพ* ]
+> ![Bacterial Growth Placeholder](https://images.unsplash.com/photo-1581093588401-fbb62a02f120?auto=format&fit=crop&w=800&q=80)
+> *ตัวอย่างผลลัพธ์: โค้ดด้านล่างจะทำให้โมเดลขยายใหญ่ขึ้น (Scale) และเปลี่ยนสีเป็นเฉดสีแดงเมื่อโตเต็มที่*
+
 ### ตัวอย่างโค้ด: สคริปต์การเติบโตของแบคทีเรีย (PlayCanvas JS)
 ```javascript
 var BacterialGrowth = pc.createScript('bacterialGrowth');
@@ -34,6 +39,13 @@ BacterialGrowth.prototype.update = function(dt) {
 };
 ```
 
-## ข้อดี vs ข้อเสีย สำหรับงานจุลชีววิทยา
 *   **ข้อดี:** คุณภาพของภาพดีที่สุดสำหรับการแสดงผลวัตถุทางชีวภาพ; มีระบบแอนิเมชั่นในตัว
 *   **ข้อเสีย:** ขนาดไฟล์อาจใหญ่ขึ้นสำหรับห้องแล็บที่ซับซ้อน; ต้องการพื้นที่จัดเก็บใน PlayCanvas (หรือต้องโฮสต์เอง)
+
+---
+> [!IMPORTANT]
+> **Dashboard Preview:** [ 🎥 *วิดีโอสาธิต: ห้องแล็บเสมือนที่มีกล้องจุลทรรศน์และจานเพาะเชื้อที่ตอบโต้ได้แบบ Real-time* ]
+> ![Lab Interface Placeholder](https://images.unsplash.com/photo-1579154341098-e4e158cc7f55?auto=format&fit=crop&w=800&q=80)
+
+---
+[**&larr; กลับไปหน้าหลัก (Dashboard)**](../index.html)
