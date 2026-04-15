@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AR.js | Advanced Marker AR Guide</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&family=Outfit:wght@500;800&family=Sarabun:wght@400;700&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+
+    <a href="index.html" class="back-btn">&larr; กลับหน้าหลัก</a>
+
+    <header class="sub-hero">
+        <div class="badge">Open-source & Marker-based AR</div>
+        <h1>AR.js for Interactive Media</h1>
+        <p>เปลี่ยนหน้ากระดาษหนังสือเรียนให้เป็นสื่อโต้ตอบ 3 มิติ ด้วยการตรวจจับรูปภาพและสัญลักษณ์พิเศษ</p>
+    </header>
+
+    <main class="example-grid">
+        <!-- Example 1: 3D Periodic Table (Image Tracking) -->
+        <article class="example-card">
+            <h2>1. AR Periodic Table (Image Tracking)</h2>
+            <p>การใช้ Image Tracking เพื่อส่องไปที่รูปผังธาตุในหนังสือ แล้วให้ระบบแสดงโครงสร้างอะตอม 3 มิติ (Bohr Model) ของธาตุนั้นๆ ลอยขึ้นมา</p>
+            
+            <div class="example-visual">
+                [ 3D Visualization Placeholder: รูปภาพธาตุ Oxygen ในหนังสือที่มีโมเดลอิเล็กตรอนวิ่งรอบนิวเคลียสซ้อนทับอยู่ ]
+            </div>
+
+            <div class="detail-section">
+                <h3>การตั้งค่า Image Tracking ใน AR.js</h3>
+                <pre><code>&lt;a-scene embedded arjs="trackingMethod: best;"&gt;
+  &lt;!-- ส่องที่ภาพธาตุไฮโดรเจน (.mind หรือ .nft file) --&gt;
+  &lt;a-nft type="nft" url="path/to/hydrogen_image"&gt;
+    &lt;a-entity id="atom_hydrogen"&gt;
+      &lt;a-sphere position="0 0 0" radius="0.1" color="red"&gt;&lt;/a-sphere&gt; &lt;!-- Protons --&gt;
+      &lt;a-torus position="0 0 0" arc="360" radius="0.5" radius-tubular="0.01"&gt;
+         &lt;a-sphere position="0.5 0 0" radius="0.05" color="blue"&gt;&lt;/a-sphere&gt; &lt;!-- Electrons --&gt;
+      &lt;/a-torus&gt;
+    &lt;/a-entity&gt;
+  &lt;/a-nft&gt;
+&lt;/a-scene&gt;</code></pre>
+            </div>
+            
+            <div class="detail-section">
+                <h3>การนำไปสอน</h3>
+                <p>ช่วยให้นักศึกษาสามารถมองเห็นชั้นพลังงาน (Shells) และการจัดเรียงตัวของอิเล็กตรอนในพื้นที่ 3 มิติ ซึ่งจะทำความเข้าใจได้ยากจากภาพ 2 มิติปกติ</p>
+            </div>
+        </article>
+
+        <!-- Example 2: Vector Space Mapping -->
+        <article class="example-card">
+            <h2>2. 3D Vector Visualizer (Marker-based)</h2>
+            <p>การใช้ Marker เพื่อกำหนดจุดอ้างอิง (Origin) แล้วให้ผู้เรียนลากเส้นเวกเตอร์ X, Y, Z โดยอาศัยมุมมองจากเบราว์เซอร์</p>
+            
+            <div class="example-visual">
+                [ 3D Visualization Placeholder: แกน X(แดง) Y(เขียว) Z(น้ำเงิน) พุ่งออกจาก Marker บนพื้นโต๊ะ ]
+            </div>
+
+            <div class="detail-section">
+                <h3>การแสดงผลแกนพิกัดฉาก</h3>
+                <pre><code>&lt;a-marker preset="hiro"&gt;
+  &lt;!-- แกน X --&gt;
+  &lt;a-entity line="start: 0 0 0; end: 1 0 0; color: red"&gt;&lt;/a-entity&gt;
+  &lt;a-text value="X Axis" position="1.1 0 0" color="red"&gt;&lt;/a-text&gt;
+  
+  &lt;!-- แกน Y --&gt;
+  &lt;a-entity line="start: 0 0 0; end: 0 1 0; color: green"&gt;&lt;/a-entity&gt;
+  
+  &lt;!-- แกน Z --&gt;
+  &lt;a-entity line="start: 0 0 0; end: 0 0 1; color: blue"&gt;&lt;/a-entity&gt;
+&lt;/a-marker&gt;</code></pre>
+            </div>
+
+            <div class="detail-section">
+                <h3>โจทย์คณิตศาสตร์สำหรับฟิสิกส์</h3>
+                <p>โปรดลองคำนวณเวกเตอร์ผลลัพธ์ (Resultant Vector) จากแรงที่กระทำสองทิศทางบน Marker แล้วเขียนโค้ดเพื่อสร้างเส้นประแสดงการแตกเวกเตอร์</p>
+            </div>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 AI Python Physics - Strategic Guide for XR Education</p>
+    </footer>
+
+    <script src="index.js"></script>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marker AR: chemistry Simulation | AR.js</title>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --p: #FF8C00; }
+        body { margin: 0; font-family: 'Outfit', sans-serif; overflow: hidden; background: #000; }
+        
+        #overlay {
+            position: absolute; top: 0; left: 0; width: 100%; padding: 30px;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
+            color: white; z-index: 1000; display: flex; justify-content: space-between;
+            align-items: flex-start; pointer-events: none;
+        }
+        .back-btn { background: var(--p); color: #000; text-decoration: none; font-weight: 700; padding: 12px 25px; border-radius: 50px; pointer-events: auto; }
+        .guide { position: absolute; bottom: 40px; left: 0; width: 100%; text-align: center; color: white; text-shadow: 0 2px 10px rgba(0,0,0,0.5); z-index: 1000; }
+
+        /* Scanning animation */
+        #scanner { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 2px dashed rgba(255,140,0,0.3); pointer-events: none; }
+    </style>
+</head>
+<body>
+    <div id="overlay">
+        <div>
+            <h1 style="margin: 0; font-size: 1.5rem;">pH Indicator Simulation</h1>
+            <p style="color: #ccc; font-size: 0.9rem;">Scan the <b>HIRO</b> marker to view chemical reaction.</p>
+        </div>
+        <a href="../index.html" class="back-btn">&larr; Dashboard</a>
+    </div>
+
+    <div class="guide">Point your camera at a <b>Hiro Marker</b></div>
+    <div id="scanner"></div>
+
+    <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;">
+        <!-- Marker tracking -->
+        <a-marker preset="hiro">
+            
+            <!-- Periodic Table / Info Card -->
+            <a-plane position="0 0.01 0" rotation="-90 0 0" width="1.5" height="1.5" material="src: https://images.unsplash.com/photo-1532187875605-1ef6ec82114e?q=80&w=2070&auto=format&fit=crop; opacity: 0.2; transparent: true"></a-plane>
+            
+            <!-- pH Strip Model -->
+            <a-entity id="ph-system" position="0 0.2 0">
+                <a-box id="strip" position="0 0 0" scale="1.2 0.1 0.3" color="#f1c40f">
+                    <a-text id="label" value="pH: 7.0 (Neutral)" position="0 0.4 0" align="center" width="4" color="#fff"></a-text>
+                </a-box>
+
+                <!-- Beaker / Acid drop -->
+                <a-sphere position="0 0.8 0" radius="0.05" color="#3498db">
+                    <a-animation attribute="position" from="0 0.8 0" to="0 0.05 0" dur="2000" repeat="indefinite" easing="ease-in"></a-animation>
+                </a-sphere>
+            </a-entity>
+
+            <!-- Reaction Indicator -->
+            <a-cylinder radius="0.4" height="0.05" position="0 0.05 0" color="#f1c40f" opacity="0.6">
+                <a-animation attribute="material.color" from="#f1c40f" to="#e74c3c" dur="3000" repeat="indefinite" direction="alternate"></a-animation>
+            </a-cylinder>
+
+        </a-marker>
+
+        <a-entity camera></a-entity>
+    </a-scene>
+
+    <script>
+        // Diagnostic Log for User
+        console.log("AR.js Initialized. Looking for Hiro Marker...");
+        
+        const strip = document.getElementById('strip');
+        const label = document.getElementById('label');
+        const colors = ["#e74c3c", "#f39c12", "#f1c40f", "#2ecc71", "#3498db"];
+        const texts = ["Acidic (pH 3)", "Mild (pH 5)", "Neutral (pH 7)", "Healthy (pH 8)", "Alkaline (pH 10)"];
+        let idx = 0;
+
+        // Custom simulation script to rotate pH values
+        setInterval(() => {
+            idx = (idx + 1) % colors.length;
+            if(strip) strip.setAttribute('color', colors[idx]);
+            if(label) label.setAttribute('value', `pH Status: ${texts[idx]}`);
+        }, 3000);
+    </script>
+</body>
+</html>

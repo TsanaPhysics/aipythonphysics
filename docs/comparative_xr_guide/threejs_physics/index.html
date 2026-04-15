@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Physics: Pendulum Simulation | Three.js</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --p: #FF8C00; --bg: #050506; }
+        body { margin: 0; font-family: 'Outfit', sans-serif; background: var(--bg); color: white; overflow: hidden; }
+        
+        #canvas-container { width: 100vw; height: 100vh; }
+        
+        .ui-overlay {
+            position: absolute; top: 30px; left: 30px; width: 320px;
+            background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 28px;
+            padding: 30px; box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        }
+        
+        .back-btn { color: var(--p); text-decoration: none; font-weight: 700; display: block; margin-bottom: 20px; font-size: 0.9rem; }
+        h1 { font-size: 1.6rem; color: #fff; margin-bottom: 5px; }
+        .tag { color: var(--p); font-size: 0.7rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+
+        .control-group { margin-top: 25px; }
+        label { display: block; font-size: 0.8rem; color: #aaa; margin-bottom: 10px; }
+        input[type=range] { width: 100%; accent-color: var(--p); }
+        
+        .stats { margin-top: 30px; font-family: monospace; font-size: 0.8rem; color: #00ffaa; line-height: 1.8; }
+    </style>
+</head>
+<body>
+    <div class="ui-overlay">
+        <a href="../index.html" class="back-btn">&larr; Back to Dashboard</a>
+        <div class="tag">Computational Physics</div>
+        <h1>Simple Pendulum</h1>
+        <p style="font-size: 0.9rem; color: #777; margin-top: 10px;">Simulating Newtonian mechanics using Three.js and Cannon-es physics engine.</p>
+
+        <div class="control-group">
+            <label>Gravity Magnitude (m/s²)</label>
+            <input type="range" id="gravitySlider" min="0" max="25" step="0.5" value="9.8">
+            <div id="gravityVal" style="text-align: right; color: var(--p); font-weight: 700;">9.8</div>
+        </div>
+
+        <div class="stats" id="telemetry">
+            Angle: 0.00 rad<br>
+            Velocity: 0.00 m/s<br>
+            Period: Calculating...
+        </div>
+    </div>
+
+    <div id="canvas-container"></div>
+
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/",
+            "cannon-es": "https://unpkg.com/cannon-es@0.20.0/dist/cannon-es.js"
+        }
+    }
+    </script>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import * as CANNON from 'cannon-es';
+
+        // Scene Setup
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+        // Lighting
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+        scene.add(ambientLight);
+        const pointLight = new THREE.PointLight(0xff8c00, 1.5);
+        pointLight.position.set(5, 5, 5);
+        scene.add(pointLight);
+
+        // Physical World
+        const world = new CANNON.World();
+        world.gravity.set(0, -9.82, 0);
+
+        // Pivot (Fixed)
+        const pivotBody = new CANNON.Body({ mass: 0 });
+        pivotBody.position.set(0, 5, 0);
+        world.addBody(pivotBody);
+
+        // Pendulum Bob
+        const bobShape = new CANNON.Sphere(0.4);
+        const bobBody = new CANNON.Body({ mass: 1 });
+        bobBody.addShape(bobShape);
+        bobBody.position.set(2, 5, 0); // Start at an angle
+        bobBody.linearDamping = 0.05; // Slight air resistance
+        world.addBody(bobBody);
+
+        // String (Constraint)
+        const constraint = new CANNON.PointToPointConstraint(bobBody, new CANNON.Vec3(0, 0, 0), pivotBody, new CANNON.Vec3(0, 0, 0));
+        world.addConstraint(constraint);
+
+        // Three.js Meshes
+        const pivotMesh = new THREE.Mesh(new THREE.SphereGeometry(0.1), new THREE.MeshStandardMaterial({ color: 0x999999 }));
+        pivotMesh.position.set(0, 5, 0);
+        scene.add(pivotMesh);
+
+        const bobMesh = new THREE.Mesh(new THREE.SphereGeometry(0.4, 32, 32), new THREE.MeshStandardMaterial({ color: 0xff8c00, roughness: 0.1, metalness: 0.8 }));
+        scene.add(bobMesh);
+
+        const lineGeometry = new THREE.BufferGeometry();
+        const lineMaterial = new THREE.LineBasicMaterial({ color: 0x555555 });
+        const line = new THREE.Line(lineGeometry, lineMaterial);
+        scene.add(line);
+
+        camera.position.z = 8;
+        camera.position.y = 4;
+
+        // UI Controls
+        const gravitySlider = document.getElementById('gravitySlider');
+        const gravityVal = document.getElementById('gravityVal');
+        gravitySlider.addEventListener('input', (e) => {
+            const val = parseFloat(e.target.value);
+            world.gravity.set(0, -val, 0);
+            gravityVal.innerText = val.toFixed(1);
+        });
+
+        const telemetry = document.getElementById('telemetry');
+
+        // Animation Loop
+        function animate() {
+            requestAnimationFrame(animate);
+            world.step(1 / 60);
+
+            bobMesh.position.copy(bobBody.position);
+            bobMesh.quaternion.copy(bobBody.quaternion);
+
+            // Update string line
+            const points = [new THREE.Vector3(0, 5, 0), bobMesh.position];
+            lineGeometry.setFromPoints(points);
+
+            // Telemetry Update
+            const angle = Math.atan2(bobBody.position.x, 5 - bobBody.position.y);
+            telemetry.innerHTML = `
+                Angle: ${angle.toFixed(2)} rad<br>
+                Pos X: ${bobBody.position.x.toFixed(2)}m<br>
+                Pos Y: ${bobBody.position.y.toFixed(2)}m<br>
+                Vel: ${bobBody.velocity.length().toFixed(2)} m/s
+            `;
+
+            renderer.render(scene, camera);
+        }
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        animate();
+    </script>
+</body>
+</html>

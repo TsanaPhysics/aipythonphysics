@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PlayCanvas | Advanced Simulation Guide</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&family=Outfit:wght@500;800&family=Sarabun:wght@400;700&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+
+    <a href="index.html" class="back-btn">&larr; กลับหน้าหลัก</a>
+
+    <header class="sub-hero">
+        <div class="badge">AAA Web Graphics & Complex Simulations</div>
+        <h1>PlayCanvas Engine</h1>
+        <p>ยกระดับห้องปฏิบัติการเสมือนจริงด้วยกราฟิกคุณภาพสูง ระบบอนุภาค และการปฏิสัมพันธ์ที่ลื่นไหล</p>
+    </header>
+
+    <main class="example-grid">
+        <!-- Example 1: Kinetic Molecular Theory -->
+        <article class="example-card">
+            <h2>1. Kinetic Molecular Theory (Gas particles)</h2>
+            <p>การจำลองอนุภาคแก๊สในภาชนะปิด โดยใช้ระบบอนุภาค (Particle System) ของ PlayCanvas เพื่อแสดงการพุ่งชนและอุณหภูมิที่สัมพันธ์กับความเร็ว</p>
+            
+            <div class="example-visual">
+                [ 3D Visualization Placeholder: กล่องโปร่งใสที่มีลูกบอลขนาดเล็กพุ่งชนกันและเปลี่ยนสีตามอุณหภูมิ ]
+            </div>
+
+            <div class="detail-section">
+                <h3>การควบคุมระบบอนุภาคผ่าน Script</h3>
+                <pre><code>// ใน PlayCanvas Editor: สร้าง Particle System
+// ใน Script: ปรับแต่งค่าตามอุณหภูมิ (T)
+var GasParticles = pc.createScript('gasParticles');
+
+GasParticles.prototype.setTemperature = function(temp) {
+    this.entity.particlesystem.velocityGraph = new pc.Curve([0, temp * 0.5, 1, temp]);
+    this.entity.particlesystem.colorGraph = new pc.CurveSet([
+        [0, 0.5], [1, 1], // Red channel (ร้อนขึ้นจะแดงขึ้น)
+        [0, 0.5], [1, 0.2] // Blue channel
+    ]);
+};</code></pre>
+            </div>
+            
+            <div class="detail-section">
+                <h3>หัวข้อการเรียนรู้</h3>
+                <p>นักศึกษาสามารถทดลองปรับเพิ่มอุณหภูมิในหน้าจอ แล้วสังเกตการเปลี่ยนแปลงของความดัน (จำลองผ่านจำนวนครั้งที่มีการชนผนัง) ซึ่งสอดคล้องกับกฎของแก๊สอุดมคติ (PV = nRT)</p>
+            </div>
+        </article>
+
+        <!-- Example 2: Virtual Microscope UI -->
+        <article class="example-card">
+            <h2>2. Virtual Microscope Viewport</h2>
+            <p>การสร้างหน้าจอแสดงผลหน้ากล้องจุลทรรศน์ที่มีระบบซูม (Magnification) และการปรับความคมชัด (Fine Adjust) ผ่าน UI ของ PlayCanvas</p>
+            
+            <div class="example-visual">
+                [ 3D Visualization Placeholder: หน้าจอ interface ที่มีวงกลมส่องดูเซลล์แบคทีเรียที่ขยายใหญ่ขึ้น ]
+            </div>
+
+            <div class="detail-section">
+                <h3>สคริปต์การซูมด้วย FOV และตำแหน่งกล้อง</h3>
+                <pre><code>Microscope.prototype.zoom = function(level) {
+    var targetFieldOfView = 45 / level;
+    
+    // Tween การเปลี่ยนแปลง FOV ให้ลื่นไหล
+    this.entity.camera.calculateFov = function() {
+        return pc.math.lerp(this.fov, targetFieldOfView, 0.1);
+    };
+    
+    // แสดงผลข้อมูลกำลังขยายบน HTML UI
+    document.getElementById('zoom-info').innerText = '100x (Oil Immersion)';
+};</code></pre>
+            </div>
+
+            <div class="detail-section">
+                <h3>งานวิจัยที่เกี่ยวข้อง</h3>
+                <p>ตัวอย่างนี้เหมาะมากสำหรับชุดวิชา "จุลชีววิทยา" ในโครงการ AI Python Physics เพื่อเตรียมความพร้อมให้นักศึกษาก่อนลงมือใช้กล้องจุลทรรศน์ของจริงในห้องแล็บ</p>
+            </div>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 AI Python Physics - Strategic Guide for XR Education</p>
+    </footer>
+
+    <script src="index.js"></script>
+</body>
+</html>

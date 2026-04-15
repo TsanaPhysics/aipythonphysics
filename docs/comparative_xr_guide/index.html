@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XR Guide Dashboard | AI Python Physics</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #FF8C00;
+            --primary-glow: rgba(255, 140, 0, 0.4);
+            --bg: #0a0a0b;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-main: #ffffff;
+            --text-dim: #999;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            overflow-x: hidden;
+            background-image: radial-gradient(circle at 50% -20%, #2c1a05 0%, transparent 50%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 80px;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #fff 0%, var(--primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .subtitle { color: var(--text-dim); font-size: 1.2rem; }
+
+        /* Bento Grid */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: auto;
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 32px;
+            padding: 40px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .card:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 20px var(--primary-glow);
+        }
+
+        .card h2 { font-size: 1.8rem; margin-bottom: 15px; color: var(--primary); }
+        .card p { font-size: 1rem; color: var(--text-dim); line-height: 1.6; }
+
+        .card-main { grid-column: span 2; grid-row: span 2; background: rgba(255, 140, 0, 0.1); }
+        .card-wide { grid-column: span 2; }
+        .card-tall { grid-row: span 2; }
+
+        .tag {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            font-size: 0.8rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .icon-box {
+            width: 60px; height: 60px;
+            background: var(--primary);
+            border-radius: 18px;
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 20px var(--primary-glow);
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Language Toggle */
+        .lang-switch {
+            position: absolute; top: 40px; right: 40px;
+            display: flex; gap: 10px;
+        }
+        .lang-btn {
+            background: var(--card-bg); border: 1px solid var(--glass-border);
+            color: #fff; padding: 10px 20px; border-radius: 50px; cursor: pointer;
+            transition: 0.3s;
+        }
+        .lang-btn.active { background: var(--primary); color: #000; font-weight: 700; }
+
+        @media (max-width: 900px) {
+            .bento-grid { grid-template-columns: 1fr 1fr; }
+            .card-main, .card-wide { grid-column: span 2; }
+        }
+        @media (max-width: 600px) {
+            .bento-grid { grid-template-columns: 1fr; }
+            .card-main, .card-wide { grid-column: span 1; }
+            h1 { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="lang-switch">
+        <button class="lang-btn active" onclick="setLang('en')">EN</button>
+        <button class="lang-btn" onclick="setLang('th')">TH</button>
+    </div>
+
+    <div class="container">
+        <header>
+            <div class="tag">XR Reference 2026</div>
+            <h1 id="title">Comparative XR Portfolio</h1>
+            <p id="subtitle" class="subtitle">Interactive Science & Educational Simulations</p>
+        </header>
+
+        <div class="bento-grid">
+            <!-- Main Matrix -->
+            <a href="comparison_matrix.md" class="card card-main">
+                <div class="icon-box">📊</div>
+                <h2 id="m-title">Comparison Matrix</h2>
+                <p id="m-desc">A deep dive into 4 major XR technologies. Strategic analysis for scientific accuracy vs. performance across diverse academic disciplines.</p>
+                <div style="margin-top: 40px; font-weight: 700;">View Summary &rarr;</div>
+            </a>
+
+            <!-- Model Viewer -->
+            <a href="model_viewer/index.html" class="card">
+                <div class="tag">Agriculture</div>
+                <h2 id="mv-title">Hardware Inspection</h2>
+                <p id="mv-desc">Using Google Model-viewer for Soil NPK-pH sensors with interactive hotspots.</p>
+            </a>
+
+            <!-- ThreeJS -->
+            <a href="threejs_physics/index.html" class="card card-tall">
+                <div class="icon-box">⚛️</div>
+                <h2 id="t3-title">Physics Engine</h2>
+                <p id="t3-desc">Pure computational physics. Visualizing pendulum dynamics and field forces in real-time 3D space with high mathematical precision.</p>
+                <div class="tag" style="position: absolute; bottom: 40px;">Live Physics</div>
+            </a>
+
+            <!-- AR.js -->
+            <a href="ar_js/index.html" class="card card-wide">
+                <h2 id="ar-title">Interactive Textbook</h2>
+                <p id="ar-desc">AR.js implementation for Marker-based learning. Perfect for augmenting printed science manuals with real-time chemical reaction simulations like pH color transitions.</p>
+            </a>
+
+            <!-- PlayCanvas -->
+            <a href="playcanvas/manual.md" class="card">
+                <div class="tag">Microbiology</div>
+                <h2 id="pc-title">Virtual Lab</h2>
+                <p id="pc-desc">High-fidelity microbial growth simulations using the PlayCanvas engine.</p>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        const content = {
+            en: {
+                title: "Comparative XR Portfolio",
+                subtitle: "Interactive Science & Educational Simulations",
+                mTitle: "Comparison Matrix",
+                mDesc: "A deep dive into 4 major XR technologies. Strategic analysis for scientific accuracy vs. performance across diverse academic disciplines.",
+                mvTitle: "Hardware Inspection",
+                mvDesc: "Using Google Model-viewer for Soil NPK-pH sensors with interactive hotspots.",
+                t3Title: "Physics Engine",
+                t3Desc: "Pure computational physics. Visualizing pendulum dynamics and field forces in real-time 3D space with high mathematical precision.",
+                arTitle: "Interactive Textbook",
+                arDesc: "AR.js implementation for Marker-based learning. Perfect for augmenting printed science manuals with real-time chemical reaction simulations.",
+                pcTitle: "Virtual Lab",
+                pcDesc: "High-fidelity microbial growth simulations using the PlayCanvas engine."
+            },
+            th: {
+                title: "คลังผลงาน XR เปรียบเทียบ",
+                subtitle: "การจำลองทางวิทยาศาสตร์และการศึกษาสมัครเล่น",
+                mTitle: "ตารางสรุปเปรียบเทียบ",
+                mDesc: "การวิเคราะห์เชิงลึกของ 4 เทคโนโลยี XR หลัก สำหรับความแม่นยำทางวิชาการและประสิทธิภาพในสาขาวิชาต่างๆ",
+                mvTitle: "ตรวจสอบฮาร์ดแวร์",
+                mvDesc: "การใช้ Google Model-viewer สำหรับเซ็นเซอร์ดิน NPK-pH พร้อมจุดโต้ตอบอัจฉริยะ",
+                t3Title: "เอนจิ้นฟิสิกส์",
+                t3Desc: "ฟิสิกส์คำนวณล้วนๆ แสดงผลการแกว่งของลูกตุ้มและแรงในสนามในพื้นที่ 3 มิติแบบ Real-time",
+                arTitle: "หนังสือเรียนอัจฉริยะ",
+                arDesc: "การใช้ AR.js สำหรับการเรียนรู้แบบใช้ Marker เหมาะสำหรับการเพิ่มข้อมูลในหนังสือเรียน เช่น การเปลี่ยนสีของค่าสารเคมี",
+                pcTitle: "ห้องแล็บเสมือน",
+                pcDesc: "การจำลองการเติบโตของจุลินทรีย์ที่มีความสมจริงสูงด้วยเอนจิ้น PlayCanvas"
+            }
+        };
+
+        function setLang(lang) {
+            document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+
+            document.getElementById('title').innerText = content[lang].title;
+            document.getElementById('subtitle').innerText = content[lang].subtitle;
+            document.getElementById('m-title').innerText = content[lang].mTitle;
+            document.getElementById('m-desc').innerText = content[lang].mDesc;
+            document.getElementById('mv-title').innerText = content[lang].mvTitle;
+            document.getElementById('mv-desc').innerText = content[lang].mvDesc;
+            document.getElementById('t3-title').innerText = content[lang].t3Title;
+            document.getElementById('t3-desc').innerText = content[lang].t3Desc;
+            document.getElementById('ar-title').innerText = content[lang].arTitle;
+            document.getElementById('ar-desc').innerText = content[lang].arDesc;
+            document.getElementById('pc-title').innerText = content[lang].pcTitle;
+            document.getElementById('pc-desc').innerText = content[lang].pcDesc;
+        }
+    </script>
+</body>
+</html>

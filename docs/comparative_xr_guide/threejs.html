@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Three.js + Physics | Advanced Guide</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&family=Outfit:wght@500;800&family=Sarabun:wght@400;700&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+
+    <a href="index.html" class="back-btn">&larr; กลับหน้าหลัก</a>
+
+    <header class="sub-hero">
+        <div class="badge">Advanced Computational Physics</div>
+        <h1>Three.js + Physics Engines</h1>
+        <p>เจาะลึกการสร้างแบบจำลองทางฟิสิกส์ที่ซับซ้อนด้วยระบบ JavaScript และ Physics Engines</p>
+    </header>
+
+    <main class="example-grid">
+        <!-- Example 1: Projectile Motion -->
+        <article class="example-card">
+            <h2>1. Projectile with Air Resistance</h2>
+            <p>การจำลองการเคลื่อนที่แบบโพรเจกไทล์โดยคำนวณแรงต้านอากาศ (Drag Force) ซึ่งต้องใช้การรวมเชิงตัวเลข (Numerical Integration) แบบ Euler Method</p>
+            
+            <div class="example-visual">
+                [ 3D Visualization Placeholder: วิถีโพรเจกไทล์แบบโค้งพาราโบลาที่ซับซ้อน ]
+            </div>
+
+            <div class="detail-section">
+                <h3>ตรรกะทางคณิตศาสตร์ (Euler Method)</h3>
+                <pre><code>// คำนวณความเร่งจากแรงต้านอากาศ: a = (F_gravity + F_drag) / m
+const drag = velocity.clone().multiplyScalar(-k * velocity.length());
+const acceleration = gravity.clone().add(drag.divideScalar(mass));
+
+// อัปเดตความเร็วและตำแหน่ง (Numerical Step)
+velocity.add(acceleration.multiplyScalar(dt));
+position.add(velocity.clone().multiplyScalar(dt));</code></pre>
+            </div>
+            
+            <div class="detail-section">
+                <h3>การนำไปใช้ในเล่ม "AI Python Physics"</h3>
+                <p>ตัวอย่างนี้ช่วยให้นักศึกษาสามารถเปรียบเทียบผลลัพธ์จากการคำนวณใน Python (NumPy/SciPy) กับการแสดงผลแบบ Real-time ใน Three.js เพื่อตรวจสอบความถูกต้องของแบบจำลอง</p>
+            </div>
+        </article>
+
+        <!-- Example 2: Electric Field Visualization -->
+        <article class="example-card">
+            <h2>2. Electric Field Lines</h2>
+            <p>การแสดงผลเส้นแรงไฟฟ้าจากประจุจุด (Point Charges) โดยใช้ Three.js ArrowHelper เพื่อสร้างเวกเตอร์ฟิลด์ในพื้นที่ 3 มิติ</p>
+            
+            <div class="example-visual">
+                [ 3D Visualization Placeholder: เส้นแรงไฟฟ้าพุ่งออกจากประจุบวกไปยังประจุลบ ]
+            </div>
+
+            <div class="detail-section">
+                <h3>โค้ดการสร้าง Arrow Field</h3>
+                <pre><code>const direction = new THREE.Vector3();
+const totalForce = new THREE.Vector3(0, 0, 0);
+
+// คำนวณแรงลัพธ์จากทุกประจุที่ตำแหน่ง (x, y, z)
+charges.forEach(q => {
+    const distSq = pos.distanceToSquared(q.pos);
+    const force = k * q.value / distSq;
+    const vec = pos.clone().sub(q.pos).normalize().multiplyScalar(force);
+    totalForce.add(vec);
+});
+
+// สร้างลูกศรเวกเตอร์
+const arrow = new THREE.ArrowHelper(totalForce.clone().normalize(), pos, totalForce.length(), 0xff6b00);
+scene.add(arrow);</code></pre>
+            </div>
+
+            <div class="detail-section">
+                <h3>โจทย์ท้าทาย</h3>
+                <p>หากเราเพิ่มประจุที่สามเข้าไปในระบบ เส้นแรงไฟฟ้าจะเปลี่ยนแปลงอย่างไร? ลองออกแบบฟังก์ชันที่คำนวณความแรงของสนาม (Magnitude) เพื่อเปลี่ยนสีของลูกศรตามระดับพลังงาน</p>
+            </div>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 AI Python Physics - Strategic Guide for XR Education</p>
+    </footer>
+
+    <script src="index.js"></script>
+</body>
+</html>

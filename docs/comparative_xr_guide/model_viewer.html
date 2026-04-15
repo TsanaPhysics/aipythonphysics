@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Model-viewer | Advanced AR Guide</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&family=Outfit:wght@500;800&family=Sarabun:wght@400;700&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+
+    <a href="index.html" class="back-btn">&larr; กลับหน้าหลัก</a>
+
+    <header class="sub-hero">
+        <div class="badge">Digital Agriculture & AR-First</div>
+        <h1>Google Model-viewer</h1>
+        <p>การแสดงผลอุปกรณ์การเกษตรแม่นยำสูงด้วยเทคโนโลยี Web Components และการปฏิสัมพันธ์ผ่าน Hotspots</p>
+    </header>
+
+    <main class="example-grid">
+        <!-- Example 1: Smart Irrigation Node -->
+        <article class="example-card">
+            <h2>1. Smart Irrigation Dashboard</h2>
+            <p>การใช้โมเดล 3 มิติเป็นอินเทอร์เฟซหลัก (Dashboard) โดยการวาง Hotspots บนเซ็นเซอร์ต่างๆ เพื่อแสดงข้อมูลสภาพอากาศและความชื้นดินแบบ Real-time</p>
+            
+            <div class="example-visual">
+                [ 3D Visualization Placeholder: ชุดกล่องควบคุม IOT พร้อมป้ายดิจิทัลบอกค่า NPK และความชื้น ]
+            </div>
+
+            <div class="detail-section">
+                <h3>เทคนิคการจัดการ Hotspots</h3>
+                <pre><code>&lt;model-viewer src="iot_node.glb" ar&gt;
+  &lt;button slot="hotspot-temp" data-position="0.1 0.2 0"&gt;
+    &lt;span id="temp-display"&gt;28°C&lt;/span&gt;
+  &lt;/button&gt;
+&lt;/model-viewer&gt;
+
+&lt;script&gt;
+  // อัปเดตข้อมูลจาก API ไปยัง Hotspot
+  setInterval(() => {
+    fetch('/api/greenhouse/temp')
+      .then(r => r.json())
+      .then(data => {
+        document.getElementById('temp-display').textContent = data.val + '°C';
+      });
+  }, 5000);
+&lt;/script&gt;</code></pre>
+            </div>
+            
+            <div class="detail-section">
+                <h3>ประโยชน์ในการเกษตรแม่นยำ</h3>
+                <p>ช่วยให้เกษตรกรสามารถ "เดินสำรวจ" อุปกรณ์ผ่านมือถือในพื้นที่จริง (AR) และเห็นสถานะการทำงานของแต่ละส่วนประกอบได้ทันทีโดยไม่ต้องเปิดคอมพิวเตอร์</p>
+            </div>
+        </article>
+
+        <!-- Example 2: Exploded View (Anatomy of Machine) -->
+        <article class="example-card">
+            <h2>2. Drone Exploded View</h2>
+            <p>การใช้ Animation Timeline หรือ Variants เพื่อแสดงส่วนประกอบภายในของโดรนพ่นยา (เช่น มอเตอร์, แบตเตอรี่, ถังน้ำยา)</p>
+            
+            <div class="example-visual">
+                [ 3D Visualization Placeholder: โดรนเกษตรที่ชิ้นส่วนแยกออกจากกันเพื่อแสดงโครงสร้างภายใน ]
+            </div>
+
+            <div class="detail-section">
+                <h3>การควบคุมแอนิเมชั่นด้วย UI</h3>
+                <pre><code>const mv = document.querySelector('model-viewer');
+
+// เมื่อผู้ใช้คลิกปุ่ม "ดูโครงสร้างภายใน"
+document.querySelector('#explode-btn').onclick = () => {
+    mv.animationName = "ExplodeAction";
+    mv.play();
+};
+
+// เมื่อต้องการซ่อน
+document.querySelector('#assemble-btn').onclick = () => {
+    mv.animationName = "AssembleAction";
+    mv.play();
+};</code></pre>
+            </div>
+
+            <div class="detail-section">
+                <h3>กรณีศึกษา: การซ่อมบำรุง (Maintenance)</h3>
+                <p>นักศึกษาวิทยาลัยเกษตรสามารถใช้สมาร์ทโฟนส่องไปที่โดรนจริง แล้วกดดู Exploded View เพื่อระบุตำแหน่งของชิ้นส่วนที่ต้องเปลี่ยนหรือบำรุงรักษาอย่างถูกต้อง</p>
+            </div>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 AI Python Physics - Strategic Guide for XR Education</p>
+    </footer>
+
+    <script src="index.js"></script>
+</body>
+</html>
